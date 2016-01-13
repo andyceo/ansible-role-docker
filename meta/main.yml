@@ -1,0 +1,16 @@
+---
+
+allow_duplicates: no
+
+galaxy_info:
+  author: andyceo
+  description: Install docker and provide usefull settings for it
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+    - system
+    - development
