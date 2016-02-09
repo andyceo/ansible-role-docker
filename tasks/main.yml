@@ -1,16 +1,10 @@
 ---
 
-# @todo: switch to the ansible higher than 1.6 and use apt-key module instead command, with 'keyserver' property.
 - name: Add docker repository key
-  command: apt-key adv --keyserver {{ docker.data.apt_keyserver }} --recv-keys {{ docker.data.apt_key_sig }}
-  register: docker_apt_key_imported
-  changed_when: "'imported' in docker_apt_key_imported.stderr"
-
-#- name: Add docker repository key
-#  apt_key:
-#    id: "{{ docker.data.apt_key_sig }}"
-#    keyserver: "{{ docker.data.apt_keyserver }}"
-#    state: present
+  apt_key:
+    id: "{{ docker.data.apt_key_sig }}"
+    keyserver: "{{ docker.data.apt_keyserver }}"
+    state: present
 
 - name: Install python-pycurl to make apt_repository module workable
   apt: pkg=python-pycurl
@@ -48,6 +42,16 @@
 
 - name: Install docker-py to make ansible module docker workable
   pip: name=docker-py
+
+- name: Orcestrate containers
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ item.image }}:{{ item.tag|default('latest') }}"
+    state: "{{ item.state }}"
+    hostname: "{{ item.hostname }}"
+    links: "{{ item.links }}"
+    ports: "{{ item.ports }}"
+  with_items: "{{ docker.containers }}"
 
 # This is the example task with all params that we can use in Ansible 1.5.4 (Ubuntu 14.04)
 #- name: Example task that do something with containers

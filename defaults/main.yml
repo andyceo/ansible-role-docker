@@ -1,7 +1,30 @@
 ---
 
 docker:
+
   data:
     apt_keyserver: hkp://p80.pool.sks-keyservers.net:80
     apt_key_sig: 58118E89F3A912897C070ADBF76221572C52609D
     apt_repository: deb https://apt.dockerproject.org/repo ubuntu-trusty main
+
+  containers:
+    - name: alpine
+      image: alpine
+      tag: 3.3
+      # You cannot run any container based on alpine image, if you try:
+      #     sudo docker create --name alpine alpine:3.3
+      # you get:
+      #     Error response from daemon: No command specified
+      # Because it have no ENTRYPOINT no CMD.
+      # So thats why we use "state: absent" here.
+      state: absent
+      hostname: ""
+      links: []
+      ports: []
+    - name: busybox
+      image: busybox
+      tag: 1.24.1
+      state: started
+      hostname: ""
+      links: []
+      ports: []
