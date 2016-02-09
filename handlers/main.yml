@@ -4,22 +4,18 @@
   service:
     name=docker
     start=started
-  sudo: yes
 
 - name: docker-stop
   service:
     name=docker
     start=stopped
-  sudo: yes
 
 - name: docker-reload
   service:
     name=docker
     state=reloaded
-  sudo: yes
 
 - name: docker-restart
   service:
     name=docker
     state=restarted
-  sudo: yes

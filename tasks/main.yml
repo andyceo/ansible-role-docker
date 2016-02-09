@@ -5,7 +5,6 @@
   command: apt-key adv --keyserver {{ docker.data.apt_keyserver }} --recv-keys {{ docker.data.apt_key_sig }}
   register: docker_apt_key_imported
   changed_when: "'imported' in docker_apt_key_imported.stderr"
-  sudo: yes
 
 #- name: Add docker repository key
 #  apt_key:
@@ -15,49 +14,40 @@
 
 - name: Install python-pycurl to make apt_repository module workable
   apt: pkg=python-pycurl
-  sudo: yes
 
 - name: Add docker repository
   apt_repository:
     repo="{{ docker.data.apt_repository }}"
     state=present
-  sudo: yes
 
 - name: Update apt repositories cache
   apt: update_cache=yes
-  sudo: yes
 
 - name: Purge old lxc-docker if it exists
   apt:
     pkg=lxc-docker
     state=absent
     purge=yes
-  sudo: yes
 
 - name: Get current core version (uname -r)
   command: uname -r
   register: docker_linux_core
   changed_when: false
-  sudo: yes
 
 - name: Install linux-image-extra to use aufs storage driver
   apt: pkg="linux-image-extra-{{ docker_linux_core.stdout }}"
-  sudo: yes
 
 - name: Finally install docker and start it daemon
   apt: pkg=docker-engine
   notify: docker-start
-  sudo: yes
 
 - meta: flush_handlers
 
 - name: Install pip package to operate with python modules
   apt: name=python-pip state=present
-  sudo: yes
 
 - name: Install docker-py to make ansible module docker workable
   pip: name=docker-py
-  sudo: yes
 
 # This is the example task with all params that we can use in Ansible 1.5.4 (Ubuntu 14.04)
 #- name: Example task that do something with containers
