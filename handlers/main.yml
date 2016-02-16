@@ -3,12 +3,12 @@
 - name: docker-start
   service:
     name=docker
-    start=started
+    state=started
 
 - name: docker-stop
   service:
     name=docker
-    start=stopped
+    state=stopped
 
 - name: docker-reload
   service:
