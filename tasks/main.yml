@@ -56,6 +56,7 @@
     links: "{{ item.links|default([]) }}"
     env: "{{ item.env|default({}) }}"
     memory_limit: "{{ item.memory_limit|default('0MB') }}"
+    privileged: "{{ item.privileged|default(False) }}"
   with_items: "{{ docker.containers }}"
   when: "{{ item.enabled }}"
 
