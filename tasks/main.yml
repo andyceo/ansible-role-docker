@@ -48,10 +48,16 @@
     name: "{{ item.name }}"
     image: "{{ item.image }}:{{ item.tag|default('latest') }}"
     state: "{{ item.state }}"
-    hostname: "{{ item.hostname }}"
-    links: "{{ item.links }}"
-    ports: "{{ item.ports }}"
+    hostname: "{{ item.hostname|default('') }}"
+    detach: "{{ item.detach|default(False) }}"
+    restart_policy: "{{ item.restart_policy|default('no') }}"
+    ports: "{{ item.ports|default([]) }}"
+    volumes: "{{ item.volumes|default([]) }}"
+    links: "{{ item.links|default([]) }}"
+    env: "{{ item.env|default({}) }}"
+    memory_limit: "{{ item.memory_limit|default('0MB') }}"
   with_items: "{{ docker.containers }}"
+  when: "{{ item.enable }}"
 
 # This is the example task with all params that we can use in Ansible 1.5.4 (Ubuntu 14.04)
 #- name: Example task that do something with containers
