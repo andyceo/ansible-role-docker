@@ -1,0 +1,19 @@
+---
+
+## Example containers configurations. Port mapping are synced with it's example vhosts configuration.
+docker:
+  containers:
+
+    # phpMemcacheAdmin
+    - name: phpmemcachedadmin
+      enabled: no
+      image: jacksoncage/phpmemcachedadmin
+      state: started
+      hostname: phpmemcachedadmin
+      detach: True
+      restart_policy: always
+      ports:
+        - "30080:80"
+      volumes:
+        - /data/phpmemcachedadmin/logs:/var/log/nginx
+        - /data/phpmemcachedadmin/config:/phpmemcachedadmin
