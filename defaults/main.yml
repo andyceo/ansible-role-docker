@@ -10,7 +10,7 @@ docker:
 
   containers:
     - name: alpine
-      enable: no
+      enabled: no
       image: alpine
       tag: 3.3
       # You cannot run any container based on alpine image, if you try:
@@ -25,7 +25,7 @@ docker:
       ports: []
 
     - name: busybox
-      enable: no
+      enabled: no
       image: busybox
       tag: 1.24.1
       state: started
