@@ -4,6 +4,20 @@
 docker:
   containers:
 
+    - name: dockerui
+      enabled: no
+      image: kevan/dockerui
+      tag: 0.10.1
+      state: started
+      hostname: dockerui
+      detach: True
+      restart_policy: always
+      ports:
+        - "9000:9000"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      privileged: True
+
     # phpMemcacheAdmin
     - name: phpmemcachedadmin
       enabled: no
