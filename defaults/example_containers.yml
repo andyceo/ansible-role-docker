@@ -4,6 +4,7 @@
 docker:
   containers:
 
+    # DockerUI
     - name: dockerui
       enabled: no
       image: kevan/dockerui
@@ -31,3 +32,12 @@ docker:
       volumes:
         - /data/phpmemcachedadmin/logs:/var/log/nginx
         - /data/phpmemcachedadmin/config:/phpmemcachedadmin
+
+    # Memcached
+    - name: memcached
+      enabled: no
+      image: memcached
+      tag: 1.4.25
+      state: started
+      detach: True
+      restart_policy: always
