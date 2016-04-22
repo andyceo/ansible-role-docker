@@ -126,3 +126,17 @@ docker:
         - /data/mysql:/var/lib/mysql
       env:
         MYSQL_ROOT_PASSWORD: secret_password
+
+    # phpMyAdmin
+    # @see https://hub.docker.com/r/phpmyadmin/phpmyadmin/
+    - name: phpmyadmin
+      enabled: no
+      image: phpmyadmin/phpmyadmin
+      tag: 4.6.0-2
+      state: started
+      detach: yes
+      restart_policy: always
+      ports:
+        - "34080:80"
+      env:
+        PMA_HOST: mysql.example.com
