@@ -33,6 +33,7 @@ docker:
         - /data/phpmemcachedadmin/logs:/var/log/nginx
         - /data/phpmemcachedadmin/config:/phpmemcachedadmin
 
+    # Gitlab Community Edition
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
@@ -58,3 +59,17 @@ docker:
       state: started
       detach: True
       restart_policy: always
+
+    # Private Docker Registry
+    - name: registry
+      enabled: yes
+      image: registry
+      tag: 2.3.1
+      state: started
+      hostname: dockerui
+      detach: True
+      restart_policy: always
+      ports:
+        - "5000:5000"
+      env:
+        REGISTRY_STORAGE_DELETE_ENABLED: True
