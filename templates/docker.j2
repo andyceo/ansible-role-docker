@@ -1,0 +1,3 @@
+{{ docker.config.main }}
+
+{% if docker.config.opts %}DOCKER_OPTS="{{ docker.config.opts | join(' ') }}"{% endif %}

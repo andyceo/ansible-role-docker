@@ -37,6 +37,17 @@
 
 - meta: flush_handlers
 
+- name: Update Docker Upstart and SysVinit configuration file
+  template:
+    src=docker.j2
+    dest=/etc/default/docker
+    mode=0644
+    owner=root
+    group=root
+  notify: docker-restart
+
+- meta: flush_handlers
+
 - name: Install pip package to operate with python modules
   apt: name=python-pip state=present
 
