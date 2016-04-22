@@ -118,3 +118,18 @@ vhosts:
             - main
           location: |
             proxy_pass http://127.0.0.1:34080;
+
+  redmine:
+    enabled: no
+    listen:
+      - '*:80'
+    root: /var/www
+    name: redmine.example.com
+    nginx:
+      locations:
+        main:
+          pattern: '/'
+          includes:
+            - main
+          location: |
+            proxy_pass http://127.0.0.1:3000;
