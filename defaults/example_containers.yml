@@ -33,6 +33,23 @@ docker:
         - /data/phpmemcachedadmin/logs:/var/log/nginx
         - /data/phpmemcachedadmin/config:/phpmemcachedadmin
 
+    - name: gitlab
+      enabled: no
+      image: gitlab/gitlab-ce
+      tag: 8.6.7-ce.0
+      state: started
+      hostname: gitlab.example.com
+      detach: True
+      restart_policy: always
+      ports:
+        - "31443:443"
+        - "31080:80"
+        - "22:22"
+      volumes:
+        - /data/gitlab/config:/etc/gitlab
+        - /data/gitlab/logs:/var/log/gitlab
+        - /data/gitlab/data:/var/opt/gitlab
+
     # Memcached
     - name: memcached
       enabled: no
