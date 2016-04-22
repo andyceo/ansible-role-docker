@@ -162,3 +162,22 @@ docker:
         MYSQL_ENV_MYSQL_DATABASE: redmine
       links:
         - mysql
+
+    # InfluxDB
+    # @see https://hub.docker.com/r/tutum/influxdb/
+    - name: influxdb
+      enabled: yes
+      image: tutum/influxdb
+      tag: 0.12
+      state: started
+      detach: True
+      restart_policy: always
+      ports:
+        - "8083:8083"
+        - "8086:8086"
+      env:
+        ADMIN_USER: "root"
+        INFLUXDB_INIT_PWD: "123qwe"
+        PRE_CREATE_DB: "grafana;test"
+      volumes:
+        - /data/influxdb:/data
