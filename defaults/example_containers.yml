@@ -177,8 +177,27 @@ docker:
         - "8086:8086"
       env:
         ADMIN_USER: "root"
-        INFLUXDB_INIT_PWD: "123qwe"
+        INFLUXDB_INIT_PWD: "secret_password"
         PRE_CREATE_DB: "grafana;test"
       volumes:
         - /data/influxdb:/data
 
+    # Grafana
+    # @see https://hub.docker.com/r/grafana/grafana/
+    # Note that file /data/grafana/conf should exist on host before start this task! Or grafana did not start.
+    - name: grafana
+      enabled: yes
+      image: grafana/grafana
+      tag: 3.0.0-beta5
+      state: started
+      detach: True
+      restart_policy: always
+      ports:
+        - "36000:3000"
+      env:
+        GF_SERVER_ROOT_URL: "https://grafana.example.com"
+        GF_SECURITY_ADMIN_PASSWORD: secret_password
+      volumes:
+        - /data/grafana/data:/var/lib/grafana
+        - /data/grafana/log:/var/log/grafana
+        - /data/grafana/conf:/etc/grafana

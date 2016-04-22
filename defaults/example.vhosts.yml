@@ -1,6 +1,7 @@
 ---
 
 ## Example virtual hosts for proxy nginx. Port mapping are synced with it's example container configuration.
+# @see https://galaxy.ansible.com/andyceo/nginx/
 vhosts:
 
   dockerui:
@@ -148,3 +149,18 @@ vhosts:
             - main
           location: |
             proxy_pass http://127.0.0.1:8083;
+
+  grafana:
+    enabled: yes
+    listen:
+      - '*:80'
+    root: /var/www
+    name: grafana.example.com
+    nginx:
+      locations:
+        main:
+          pattern: '/'
+          includes:
+            - main
+          location: |
+            proxy_pass http://127.0.0.1:36000;
