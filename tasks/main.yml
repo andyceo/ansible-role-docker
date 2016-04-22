@@ -54,7 +54,7 @@
 - name: Install docker-py to make ansible module docker workable
   pip: name=docker-py
 
-- name: Orcestrate containers
+- name: Orchestrate containers
   docker:
     name: "{{ item.name }}"
     image: "{{ item.image }}:{{ item.tag|default('latest') }}"

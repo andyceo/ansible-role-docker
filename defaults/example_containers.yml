@@ -151,7 +151,7 @@ docker:
       detach: yes
       restart_policy: always
       ports:
-        - "3000:3000"
+        - "35000:3000"
       volumes:
         - /data/redmine/files:/usr/src/redmine/files
 #        - /data/redmine/config:/usr/src/redmine/config
@@ -166,7 +166,7 @@ docker:
     # InfluxDB
     # @see https://hub.docker.com/r/tutum/influxdb/
     - name: influxdb
-      enabled: yes
+      enabled: no
       image: tutum/influxdb
       tag: 0.12
       state: started
@@ -181,3 +181,4 @@ docker:
         PRE_CREATE_DB: "grafana;test"
       volumes:
         - /data/influxdb:/data
+
