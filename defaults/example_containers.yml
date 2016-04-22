@@ -75,6 +75,7 @@ docker:
         REGISTRY_STORAGE_DELETE_ENABLED: True
 
     # Docker Registry Frontend
+    # @see https://hub.docker.com/r/konradkleine/docker-registry-frontend/
     - name: docker-registry-frontend
       enabled: no
       image: konradkleine/docker-registry-frontend
@@ -87,3 +88,20 @@ docker:
       env:
         ENV_DOCKER_REGISTRY_HOST: registry.example.com
         ENV_DOCKER_REGISTRY_PORT: 5000
+
+    # Jenkins
+    # @see https://hub.docker.com/_/jenkins/
+    - name: jenkins
+      enabled: no
+      image: jenkins
+      tag: 2.0-beta-2
+      state: started
+      detach: yes
+      restart_policy: always
+      ports:
+        - "33080:8080"
+        - "50000:50000"
+      volumes:
+        - /data/jenkins:/var/jenkins_home
+      env:
+        JAVA_OPTS: -Dhudson.footerURL=http://jenkins.example.com-Djava.awt.headless=true -Dhudson.security.csrf.requestfield=crumb
