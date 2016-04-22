@@ -73,3 +73,17 @@ docker:
         - "5000:5000"
       env:
         REGISTRY_STORAGE_DELETE_ENABLED: True
+
+    # Docker Registry Frontend
+    - name: docker-registry-frontend
+      enabled: no
+      image: konradkleine/docker-registry-frontend
+      tag: v2
+      state: started
+      detach: True
+      restart_policy: always
+      ports:
+        - "32080:80"
+      env:
+        ENV_DOCKER_REGISTRY_HOST: registry.example.com
+        ENV_DOCKER_REGISTRY_PORT: 5000
