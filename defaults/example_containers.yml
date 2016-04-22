@@ -5,6 +5,7 @@ docker:
   containers:
 
     # DockerUI
+    # @see https://hub.docker.com/r/kevan/dockerui/
     - name: dockerui
       enabled: no
       image: kevan/dockerui
@@ -20,6 +21,7 @@ docker:
       privileged: True
 
     # phpMemcacheAdmin
+    # @see https://hub.docker.com/r/jacksoncage/phpmemcachedadmin/
     - name: phpmemcachedadmin
       enabled: no
       image: jacksoncage/phpmemcachedadmin
@@ -34,6 +36,7 @@ docker:
         - /data/phpmemcachedadmin/config:/phpmemcachedadmin
 
     # Gitlab Community Edition
+    # @see https://hub.docker.com/r/gitlab/gitlab-ce/
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
@@ -52,6 +55,7 @@ docker:
         - /data/gitlab/data:/var/opt/gitlab
 
     # Memcached
+    # @see https://hub.docker.com/_/memcached/
     - name: memcached
       enabled: no
       image: memcached
@@ -61,6 +65,7 @@ docker:
       restart_policy: always
 
     # Private Docker Registry
+    # @see https://docs.docker.com/registry/
     - name: registry
       enabled: yes
       image: registry
