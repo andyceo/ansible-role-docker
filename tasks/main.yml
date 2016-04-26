@@ -54,6 +54,13 @@
 - name: Install docker-py to make ansible module docker workable
   pip: name=docker-py
 
+- name: Pre-create directories for data volumes
+  command: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
+    creates={{ item.1.split(':')[0] }}
+  with_subelements:
+     - "{{ docker.containers | selectattr('volumes', 'defined') | list }}"
+     - volumes
+
 - name: Orchestrate containers
   docker:
     name: "{{ item.name }}"
