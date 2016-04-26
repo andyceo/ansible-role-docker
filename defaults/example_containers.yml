@@ -54,6 +54,23 @@ docker:
         - /data/gitlab/logs:/var/log/gitlab
         - /data/gitlab/data:/var/opt/gitlab
 
+    # Gitlab runner
+    # @see https://hub.docker.com/r/gitlab/gitlab-runner/
+    # You can create as many runners as you want, adjust suffix respectively.
+    # Do not forget to register runner in Gitlab after startup!
+    - name: gitlab-runner-01
+      enabled: no
+      image: gitlab/gitlab-runner
+      tag: ubuntu-v1.1.3
+      state: started
+      hostname: gitlab-runner-01
+      detach: True
+      restart_policy: always
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /data/gitlab-runner-01/config:/etc/gitlab-runner
+        - /data/gitlab-runner-01/home:/home/gitlab-runner
+
     # Memcached
     # @see https://hub.docker.com/_/memcached/
     - name: memcached
@@ -186,7 +203,7 @@ docker:
     # @see https://hub.docker.com/r/grafana/grafana/
     # Note that file /data/grafana/conf should exist on host before start this task! Or grafana did not start.
     - name: grafana
-      enabled: yes
+      enabled: no
       image: grafana/grafana
       tag: 3.0.0-beta5
       state: started
