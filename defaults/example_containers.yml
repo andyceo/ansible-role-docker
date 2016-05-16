@@ -8,8 +8,8 @@ docker:
     # @see https://hub.docker.com/r/kevan/dockerui/
     - name: dockerui
       enabled: no
-      image: kevan/dockerui
-      tag: 0.10.1
+      image: uifd/ui-for-docker
+      tag: 0.11.0-beta
       state: started
       hostname: dockerui
       detach: True
@@ -88,7 +88,6 @@ docker:
       image: registry
       tag: 2.3.1
       state: started
-      hostname: dockerui
       detach: True
       restart_policy: always
       ports:
