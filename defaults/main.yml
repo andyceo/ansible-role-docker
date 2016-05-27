@@ -5,8 +5,7 @@ docker:
   data:
     apt_keyserver: hkp://p80.pool.sks-keyservers.net:80
     apt_key_sig: 58118E89F3A912897C070ADBF76221572C52609D
-    # Use ubuntu-xenial unstead ubuntu-trusty to install docker on Ubuntu Xenial 16.04 (LTS)
-    apt_repository: deb https://apt.dockerproject.org/repo ubuntu-trusty main
+    apt_repository: deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
 
   config:
     main: |
