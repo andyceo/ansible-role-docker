@@ -4,7 +4,7 @@
 docker:
   containers:
 
-    # DockerUI
+    # UI for Docker (formely known as DockerUI)
     # @see https://hub.docker.com/r/uifd/ui-for-docker/
     - name: uifd
       enabled: no
