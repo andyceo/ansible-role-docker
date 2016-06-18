@@ -53,6 +53,12 @@
 
 - meta: flush_handlers
 
+- name: Install docker-compose
+  shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.data.docker_compose_version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose
+  args:
+    chdir: "{{ docker.data.docker_compose_path }}"
+    creates: "docker-compose"
+
 - name: Install pip package to operate with python modules
   apt: name=python-pip state=present
 
