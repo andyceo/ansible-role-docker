@@ -76,6 +76,7 @@
   docker:
     name: "{{ item.name }}"
     image: "{{ item.image }}:{{ item.tag|default('latest') }}"
+    command: "{{ item.command|default('') }}"
     state: "{{ item.state }}"
     hostname: "{{ item.hostname|default('') }}"
     detach: "{{ item.detach|default(False) }}"
@@ -88,6 +89,9 @@
     privileged: "{{ item.privileged|default(False) }}"
   with_items: "{{ docker.containers }}"
   when: "{{ item.enabled }}"
+  tags:
+    - docker
+    - docker-orchestrate
 
 # This is the example task with all params that we can use in Ansible 1.5.4 (Ubuntu 14.04)
 #- name: Example task that do something with containers
