@@ -76,10 +76,29 @@ docker:
     - name: memcached
       enabled: no
       image: memcached
-      tag: 1.4.25
+      tag: 1.4.27
       state: started
       detach: True
       restart_policy: always
+      ports:
+        - 11211:11211
+
+    # Redis
+    # @see https://hub.docker.com/r/_/redis/
+    - name: redis
+      enabled: yes
+      image: redis
+      tag: 3.2.1
+      state: started
+      hostname: redis-master
+      detach: True
+      restart_policy: always
+      volumes:
+        - /data/redis/conf:/usr/local/etc/redis/redis.conf:ro
+        - /data/redis/data:/data:rw
+        - /data/redis/logs:/var/log/redis:rw
+      ports:
+        - 6379:6379
 
     # Private Docker Registry
     # @see https://docs.docker.com/registry/
