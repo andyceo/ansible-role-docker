@@ -183,8 +183,8 @@ docker:
     # @see https://hub.docker.com/r/tutum/influxdb/
     - name: influxdb
       enabled: no
-      image: tutum/influxdb
-      tag: 0.12
+      image: influxdb
+      tag: 1.0.0-beta2
       state: started
       detach: True
       restart_policy: always
@@ -196,7 +196,7 @@ docker:
         INFLUXDB_INIT_PWD: "secret_password"
         PRE_CREATE_DB: "grafana;test"
       volumes:
-        - /data/influxdb:/data
+        - /data/influxdb:/var/lib/influxdb
 
     # Grafana
     # @see https://hub.docker.com/r/grafana/grafana/
@@ -204,10 +204,12 @@ docker:
     - name: grafana
       enabled: no
       image: grafana/grafana
-      tag: 3.0.0-beta5
+      tag: 3.1.0-beta1
       state: started
       detach: True
       restart_policy: always
+      links:
+        - influxdb
       ports:
         - "36000:3000"
       env:
@@ -217,3 +219,33 @@ docker:
         - /data/grafana/data:/var/lib/grafana
         - /data/grafana/log:/var/log/grafana
         - /data/grafana/conf:/etc/grafana
+
+    # Nginx
+    # @see https://hub.docker.com/_/nginx/
+    # You should copy config files before create container!
+    # You should place virtual host configs in nginx/conf.d directory
+    - name: nginx
+      enabled: yes
+      image: nginx
+      tag: 1.10.1
+      state: started
+      hostname: nginx
+      detach: True
+      restart_policy: always
+      ports:
+        - 80:80
+        - 443:443
+      links:
+        - uifd
+        - grafana
+        - influxdb
+      volumes:
+        - /data/ssl:/ssl:ro
+        - /data/nginx/htpasswds:/etc/nginx/htpasswds:ro
+        - /data/nginx/conf.d:/etc/nginx/conf.d:ro
+        - /data/nginx/fastcgi_params:/etc/nginx/fastcgi_params:ro
+        - /data/nginx/proxy_headers:/etc/nginx/proxy_headers:ro
+        - /data/nginx/proxy_params:/etc/nginx/proxy_params:ro
+        - /data/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        - /data/nginx/default-content:/usr/share/nginx/html:ro
+        - /data/nginx/logs:/var/log/nginx:rw
