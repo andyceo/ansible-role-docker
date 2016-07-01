@@ -51,6 +51,16 @@
     group=root
   notify: docker-restart
 
+- name: Create Docker user-defined networks
+  shell: docker network create {{ item.name }}
+  with_items: "{{ docker.data.networks }}"
+  ignore_errors: True
+  register: docker_network_create_result
+  changed_when: "docker_network_create_result|succeeded and 'already exists' not in docker_network_create_result.stderr"
+  tags:
+    - docker
+    - docker-networks
+
 - meta: flush_handlers
 
 - name: Install docker-compose
@@ -81,6 +91,7 @@
     hostname: "{{ item.hostname|default('') }}"
     detach: "{{ item.detach|default(False) }}"
     restart_policy: "{{ item.restart_policy|default('no') }}"
+    net: "{{ item.net|default('') }}"
     ports: "{{ item.ports|default([]) }}"
     volumes: "{{ item.volumes|default([]) }}"
     links: "{{ item.links|default([]) }}"

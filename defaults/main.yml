@@ -8,6 +8,8 @@ docker:
     apt_repository: deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
     docker_compose_path: /usr/local/bin
     docker_compose_version: 1.8.0-rc1
+    networks:
+      - name: local
 
   config:
     main: |

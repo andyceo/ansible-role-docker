@@ -1,6 +1,9 @@
 ---
 
 ## Example containers configurations. Port mapping are synced with it's example vhosts configuration.
+## All this containers are assumed that there is user defined docker network named "local", and each container was
+## created with --net=local
+
 docker:
   containers:
 
@@ -14,6 +17,7 @@ docker:
       hostname: uifd
       detach: True
       restart_policy: always
+      net: local
       ports:
         - "9000:9000"
       volumes:
@@ -29,6 +33,7 @@ docker:
       hostname: phpmemcachedadmin
       detach: True
       restart_policy: always
+      net: local
       ports:
         - "30080:80"
       volumes:
@@ -45,6 +50,7 @@ docker:
       hostname: gitlab.example.com
       detach: True
       restart_policy: always
+      net: local
       ports:
         - "31443:443"
         - "31080:80"
@@ -66,6 +72,7 @@ docker:
       hostname: gitlab-runner-01
       detach: True
       restart_policy: always
+      net: local
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - /data/gitlab-runner-01/config:/etc/gitlab-runner
@@ -80,6 +87,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
+      net: local
       ports:
         - 11211:11211
 
@@ -93,6 +101,7 @@ docker:
       hostname: redis-master
       detach: True
       restart_policy: always
+      net: local
       volumes:
         - /data/redis/conf:/usr/local/etc/redis/redis.conf:ro
         - /data/redis/data:/data:rw
@@ -109,6 +118,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
+      net: local
       ports:
         - "5000:5000"
       env:
@@ -123,6 +133,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
+      net: local
       ports:
         - "32080:80"
       env:
@@ -130,14 +141,16 @@ docker:
         ENV_DOCKER_REGISTRY_PORT: 5000
 
     # Jenkins
-    # @see https://hub.docker.com/_/jenkins/
+    # @see https://hub.docker.com/r/jenkinsci/jenkins/
+    # There is "official" jenkins 1.x at: https://hub.docker.com/_/jenkins/
     - name: jenkins
       enabled: no
-      image: jenkins
+      image: jenkinsci/jenkins
       tag: 2.0-beta-2
       state: started
       detach: yes
       restart_policy: always
+      net: local
       ports:
         - "33080:8080"
         - "50000:50000"
@@ -155,6 +168,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
+      net: local
       ports:
         - "3306:3306"
       volumes:
@@ -171,6 +185,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
+      net: local
       ports:
         - "34080:80"
       env:
@@ -185,6 +200,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
+      net: local
       ports:
         - "35000:3000"
       volumes:
@@ -207,6 +223,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
+      net: local
       ports:
         - "8083:8083"
         - "8086:8086"
@@ -227,8 +244,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
-      links:
-        - influxdb
+      net: local
       ports:
         - "36000:3000"
       env:
@@ -251,13 +267,10 @@ docker:
       hostname: nginx
       detach: True
       restart_policy: always
+      net: local
       ports:
         - 80:80
         - 443:443
-      links:
-        - uifd
-        - grafana
-        - influxdb
       volumes:
         - /data/ssl:/ssl:ro
         - /data/nginx/htpasswds:/etc/nginx/htpasswds:ro
@@ -267,4 +280,5 @@ docker:
         - /data/nginx/proxy_params:/etc/nginx/proxy_params:ro
         - /data/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         - /data/nginx/default-content:/usr/share/nginx/html:ro
+        - /data/nginx/cache:/var/cache/nginx:rw
         - /data/nginx/logs:/var/log/nginx:rw
