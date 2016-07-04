@@ -161,10 +161,11 @@ docker:
 
     # MySQL
     # @see https://hub.docker.com/_/mysql/
+    # Note that environment variable MYSQL_ROOT_PASSWORD is mandatory.
     - name: mysql
       enabled: no
       image: mysql
-      tag: 5.7.12
+      tag: 5.7.13
       state: started
       detach: yes
       restart_policy: always
@@ -172,7 +173,9 @@ docker:
       ports:
         - "3306:3306"
       volumes:
-        - /data/mysql:/var/lib/mysql
+        - /data/mysql/conf:/etc/mysql/conf.d:ro
+        - /data/mysql/data:/var/lib/mysql:rw
+        - /data/mysql/logs:/var/log/mysql:rw
       env:
         MYSQL_ROOT_PASSWORD: secret_password
 
