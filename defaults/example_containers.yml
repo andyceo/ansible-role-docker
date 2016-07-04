@@ -184,13 +184,15 @@ docker:
     - name: phpmyadmin
       enabled: no
       image: phpmyadmin/phpmyadmin
-      tag: 4.6.0-2
+      tag: 4.6.3-1
       state: started
       detach: yes
       restart_policy: always
       net: local
       ports:
         - "34080:80"
+      volumes:
+        - /data/phpmyadmin/sessions:/sessions:rw
       env:
         PMA_HOST: mysql.example.com
 
