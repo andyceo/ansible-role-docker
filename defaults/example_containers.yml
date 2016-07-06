@@ -1,8 +1,8 @@
 ---
 
 ## Example containers configurations. Port mapping are synced with it's example vhosts configuration.
-## All this containers are assumed that there is user defined docker network named "local", and each container was
-## created with --net=local
+## All this containers are assumed that there is user defined docker network named "docknet", and each
+## container was created with --net=docknet
 
 docker:
   containers:
@@ -17,7 +17,7 @@ docker:
       hostname: uifd
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "9000:9000"
       volumes:
@@ -33,7 +33,7 @@ docker:
       hostname: phpmemcachedadmin
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "30080:80"
       volumes:
@@ -50,7 +50,7 @@ docker:
       hostname: gitlab.example.com
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "31443:443"
         - "31080:80"
@@ -72,7 +72,7 @@ docker:
       hostname: gitlab-runner-01
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - /data/gitlab-runner-01/config:/etc/gitlab-runner
@@ -87,7 +87,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - 11211:11211
 
@@ -101,7 +101,7 @@ docker:
       hostname: redis-master
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       volumes:
         - /data/redis/conf:/usr/local/etc/redis/redis.conf:ro
         - /data/redis/data:/data:rw
@@ -118,7 +118,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "5000:5000"
       env:
@@ -133,7 +133,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "32080:80"
       env:
@@ -150,7 +150,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "33080:8080"
         - "50000:50000"
@@ -169,7 +169,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "3306:3306"
       volumes:
@@ -188,7 +188,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "34080:80"
       volumes:
@@ -205,7 +205,7 @@ docker:
       state: started
       detach: yes
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "35000:3000"
       volumes:
@@ -228,7 +228,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "8083:8083"
         - "8086:8086"
@@ -249,7 +249,7 @@ docker:
       state: started
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - "36000:3000"
       env:
@@ -272,7 +272,7 @@ docker:
       hostname: nginx
       detach: True
       restart_policy: always
-      net: local
+      net: docknet
       ports:
         - 80:80
         - 443:443

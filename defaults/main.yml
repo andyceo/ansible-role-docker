@@ -9,7 +9,7 @@ docker:
     docker_compose_path: /usr/local/bin
     docker_compose_version: 1.8.0-rc1
     networks:
-      - name: local
+      - name: docknet
 
   config:
     main: |
