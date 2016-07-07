@@ -2,8 +2,8 @@
 
 - name: Install dependencies for Ansible apt* modules
   command: apt-get -y install python-apt aptitude
-  register: preconf_apt_dependencies_installed
-  changed_when: "'is already the newest version' not in preconf_apt_dependencies_installed.stdout"
+  register: docker_apt_dependencies_installed
+  changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
 
 - name: Add docker repository key
   apt_key:
@@ -18,9 +18,7 @@
   apt_repository:
     repo="{{ docker.data.apt_repository }}"
     state=present
-
-- name: Update apt repositories cache
-  apt: update_cache=yes
+    update_cache=yes
 
 - name: Purge old lxc-docker if it exists
   apt:
