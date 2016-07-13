@@ -45,7 +45,7 @@ docker:
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
-      tag: 8.6.7-ce.0
+      tag: 8.9.6-ce.0
       state: started
       hostname: gitlab.example.com
       detach: True
@@ -146,7 +146,7 @@ docker:
     - name: jenkins
       enabled: no
       image: jenkinsci/jenkins
-      tag: 2.0-beta-2
+      tag: 2.13
       state: started
       detach: yes
       restart_policy: always
