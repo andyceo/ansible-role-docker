@@ -90,6 +90,7 @@
     detach: "{{ item.detach|default(False) }}"
     restart_policy: "{{ item.restart_policy|default('no') }}"
     net: "{{ item.net|default('') }}"
+    expose: "{{ item.expose|default([]) }}"
     ports: "{{ item.ports|default([]) }}"
     volumes: "{{ item.volumes|default([]) }}"
     links: "{{ item.links|default([]) }}"
