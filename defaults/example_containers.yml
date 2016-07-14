@@ -45,7 +45,7 @@ docker:
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
-      tag: 8.9.6-ce.0
+      tag: 8.10.0-rc5.ce.0
       state: started
       hostname: gitlab.example.com
       detach: True
@@ -226,18 +226,17 @@ docker:
       image: influxdb
       tag: 1.0.0-beta2
       state: started
+      hostname: influxdb
       detach: True
       restart_policy: always
       net: docknet
-      ports:
-        - "8083:8083"
-        - "8086:8086"
-      env:
-        ADMIN_USER: "root"
-        INFLUXDB_INIT_PWD: "secret_password"
-        PRE_CREATE_DB: "grafana;test"
+      expose:
+        - 8083
+        - 8086
+        - 8089
       volumes:
-        - /data/influxdb:/var/lib/influxdb
+        - /datas03/docker/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+        - /datas03/docker/influxdb/data:/var/lib/influxdb:rw
 
     # Grafana
     # @see https://hub.docker.com/r/grafana/grafana/
@@ -245,7 +244,7 @@ docker:
     - name: grafana
       enabled: no
       image: grafana/grafana
-      tag: 3.1.0-beta1
+      tag: 3.1.0
       state: started
       detach: True
       restart_policy: always
