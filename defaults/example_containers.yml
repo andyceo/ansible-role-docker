@@ -45,7 +45,7 @@ docker:
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
-      tag: 8.10.0-rc5.ce.0
+      tag: 8.10.2-ce.0
       state: started
       hostname: gitlab.example.com
       detach: True
@@ -83,7 +83,7 @@ docker:
     - name: memcached
       enabled: no
       image: memcached
-      tag: 1.4.27
+      tag: 1.4.28
       state: started
       detach: True
       restart_policy: always
@@ -98,12 +98,13 @@ docker:
       image: redis
       tag: 3.2.1
       state: started
+      command: redis-server /usr/local/etc/redis/redis.conf
       hostname: redis-master
       detach: True
       restart_policy: always
       net: docknet
       volumes:
-        - /data/redis/conf:/usr/local/etc/redis/redis.conf:ro
+        - /data/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
         - /data/redis/data:/data:rw
         - /data/redis/logs:/var/log/redis:rw
       ports:
@@ -146,7 +147,7 @@ docker:
     - name: jenkins
       enabled: no
       image: jenkinsci/jenkins
-      tag: 2.13
+      tag: 2.15
       state: started
       detach: yes
       restart_policy: always
