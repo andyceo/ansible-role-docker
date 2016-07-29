@@ -111,11 +111,12 @@ docker:
         - 6379:6379
 
     # Private Docker Registry
+    # @see https://hub.docker.com/_/registry/
     # @see https://docs.docker.com/registry/
     - name: registry
       enabled: yes
       image: registry
-      tag: 2.3.1
+      tag: 2.5.0
       state: started
       detach: True
       restart_policy: always

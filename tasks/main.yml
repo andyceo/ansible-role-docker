@@ -40,15 +40,6 @@
 
 - meta: flush_handlers
 
-- name: Update Docker Upstart and SysVinit configuration file
-  template:
-    src=docker.j2
-    dest=/etc/default/docker
-    mode=0644
-    owner=root
-    group=root
-  notify: docker-restart
-
 - name: Remove default Docker OS-independent json configuration file if nothing to add to it
   file:
     path=/etc/docker/daemon.json
