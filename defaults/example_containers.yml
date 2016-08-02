@@ -45,7 +45,7 @@ docker:
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
-      tag: 8.10.2-ce.0
+      tag: 8.10.3-ce.0
       state: started
       hostname: gitlab.example.com
       detach: True
@@ -113,6 +113,9 @@ docker:
     # Private Docker Registry
     # @see https://hub.docker.com/_/registry/
     # @see https://docs.docker.com/registry/
+    # Variable REGISTRY_STORAGE_DELETE_ENABLED: True used to allow deleting repos and tags. You should periodically run
+    # 'sudo docker exec registry /bin/registry garbage-collect /etc/docker/registry/config.yml' on host machine
+    # to delete obsolete data layers in registry.
     - name: registry
       enabled: yes
       image: registry
@@ -125,6 +128,8 @@ docker:
         - "5000:5000"
       env:
         REGISTRY_STORAGE_DELETE_ENABLED: True
+      volumes:
+        - /data/registry:/var/lib/registry:rw
 
     # Docker Registry Frontend
     # @see https://hub.docker.com/r/konradkleine/docker-registry-frontend/
@@ -141,6 +146,23 @@ docker:
       env:
         ENV_DOCKER_REGISTRY_HOST: registry.example.com
         ENV_DOCKER_REGISTRY_PORT: 5000
+
+    - name: docker-registry-web
+      enabled: yes
+      image: hyper/docker-registry-web
+      tag: v0.1.2
+      state: started
+      detach: True
+      restart_policy: always
+      net: docknet
+      expose:
+        - 8080
+      ports:
+        - "8084:8080"
+      env:
+        REGISTRY_URL: http://registry.example.com:5000/v2
+        REGISTRY_NAME: registry.example.com:5000
+        REGISTRY_READONLY: False
 
     # Jenkins
     # @see https://hub.docker.com/r/jenkinsci/jenkins/
