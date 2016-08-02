@@ -51,6 +51,7 @@ docker:
       detach: True
       restart_policy: always
       net: docknet
+      log_driver: none
       ports:
         - "31443:443"
         - "31080:80"

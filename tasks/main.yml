@@ -104,6 +104,7 @@
     env: "{{ item.env|default({}) }}"
     memory_limit: "{{ item.memory_limit|default(0) }}"
     privileged: "{{ item.privileged|default(False) }}"
+    log_driver: "{{ item.log_driver|default('json-file') }}"
   with_items: "{{ docker.containers }}"
   when: "{{ item.enabled }}"
   tags:
