@@ -249,7 +249,7 @@ docker:
     - name: influxdb
       enabled: no
       image: influxdb
-      tag: 1.0.0-beta2
+      tag: 1.0.0-beta3
       state: started
       hostname: influxdb
       detach: True
@@ -269,7 +269,7 @@ docker:
     - name: grafana
       enabled: no
       image: grafana/grafana
-      tag: 3.1.0
+      tag: 3.1.1
       state: started
       detach: True
       restart_policy: always
