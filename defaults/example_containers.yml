@@ -171,7 +171,7 @@ docker:
     - name: jenkins
       enabled: no
       image: jenkinsci/jenkins
-      tag: 2.15
+      tag: 2.16
       state: started
       detach: yes
       restart_policy: always
@@ -311,3 +311,15 @@ docker:
         - /data/nginx/default-content:/usr/share/nginx/html:ro
         - /data/nginx/cache:/var/cache/nginx:rw
         - /data/nginx/logs:/var/log/nginx:rw
+
+    # Drupal
+    # @see https://hub.docker.com/_/drupal/
+    - name: drupal8
+      enabled: yes
+      image: drupal
+      tag: 8.1.7-fpm
+      state: started
+      hostname: drupal8
+      detach: True
+      restart_policy: always
+      net: docknet
