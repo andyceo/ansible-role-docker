@@ -323,3 +323,5 @@ docker:
       detach: True
       restart_policy: always
       net: docknet
+      volumes:
+        - /data/drupal/drupal8:/var/www/html/sites/default:rw
