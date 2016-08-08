@@ -45,7 +45,7 @@ docker:
     - name: gitlab
       enabled: no
       image: gitlab/gitlab-ce
-      tag: 8.10.3-ce.0
+      tag: 8.10.4-ce.0
       state: started
       hostname: gitlab.example.com
       detach: True
@@ -171,7 +171,7 @@ docker:
     - name: jenkins
       enabled: no
       image: jenkinsci/jenkins
-      tag: 2.16
+      tag: 2.17
       state: started
       detach: yes
       restart_policy: always
@@ -182,7 +182,7 @@ docker:
       volumes:
         - /data/jenkins:/var/jenkins_home
       env:
-        JAVA_OPTS: -Dhudson.footerURL=http://jenkins.example.com-Djava.awt.headless=true -Dhudson.security.csrf.requestfield=crumb
+        JAVA_OPTS: -Dhudson.footerURL=http://jenkins.example.com -Djava.awt.headless=true -Dhudson.security.csrf.requestfield=crumb -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/Moscow
 
     # MySQL
     # @see https://hub.docker.com/_/mysql/
@@ -190,7 +190,7 @@ docker:
     - name: mysql
       enabled: no
       image: mysql
-      tag: 5.7.13
+      tag: 5.7.14
       state: started
       detach: yes
       restart_policy: always
