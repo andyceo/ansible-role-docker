@@ -325,3 +325,28 @@ docker:
       net: docknet
       volumes:
         - /data/drupal/drupal8:/var/www/html/sites/default:rw
+
+    # Satis
+    # @see https://hub.docker.com/r/ypereirareis/docker-satis/
+    # Generate new hash with: php -r "echo hash('sha1', 'your_password');" and place it to config.php
+    - name: satis
+      enabled: yes
+      image: ypereirareis/docker-satis
+      tag: 4.2
+      state: started
+      hostname: satis
+      detach: True
+      restart_policy: always
+      net: docknet
+      volumes:
+        - /data/satis/deploy_ssh_key/id_rsa:/var/tmp/id:ro
+        - /data/satis/composer_cache:/root/.composer:rw
+        - /data/satis/conf/config.php:/app/config.php:ro
+        - /data/satis/conf/config.json:/app/config.json:ro
+        - /data/satis/logs:/var/log:rw
+        - /data/satis/data:/satisfy/web/dist:rw
+        - /data/satis/temp:/tmp:rw
+      env:
+        PRIVATE_REPO_DOMAIN_LIST: bitbucket.org gitlab.com github.com
+        CRONTAB_FREQUENCY: "*/3 * * * *"
+        VIRTUAL_HOST: satis.example.com
