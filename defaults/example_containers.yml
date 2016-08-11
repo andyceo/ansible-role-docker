@@ -350,3 +350,19 @@ docker:
         PRIVATE_REPO_DOMAIN_LIST: bitbucket.org gitlab.com github.com
         CRONTAB_FREQUENCY: "*/3 * * * *"
         VIRTUAL_HOST: satis.example.com
+
+    # Elasticsearch
+    # @see https://hub.docker.com/_/elasticsearch/
+    - name: elasticsearch
+      enabled: yes
+      image: elasticsearch
+      tag: 2.3.5
+      state: started
+      hostname: elasticsearch
+      detach: True
+      restart_policy: always
+      net: docknet
+      volumes:
+        - /data/elasticsearch/conf:/usr/share/elasticsearch/config:ro
+        - /data/elasticsearch/data:/usr/share/elasticsearch/data:rw
+        - /data/elasticsearch/logs:/usr/share/elasticsearch/logs:rw
