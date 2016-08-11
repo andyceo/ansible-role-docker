@@ -381,3 +381,19 @@ docker:
       env:
         ELASTICSEARCH_URL: "http://elasticsearch:9200"
         NODE_OPTIONS: --max-old-space-size=200
+
+    # Logstash
+    # @see https://hub.docker.com/_/logstash/
+    # The file logstash.conf must exists before running this
+    - name: logstash
+      enabled: yes
+      image: logstash
+      command: logstash -f /logstash-config/logstash.conf
+      tag: 2.3.4
+      state: started
+      hostname: logstash
+      detach: True
+      restart_policy: always
+      net: docknet
+      volumes:
+        - /data/logstash/conf:/logstash-config
