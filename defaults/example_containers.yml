@@ -366,3 +366,18 @@ docker:
         - /data/elasticsearch/conf:/usr/share/elasticsearch/config:ro
         - /data/elasticsearch/data:/usr/share/elasticsearch/data:rw
         - /data/elasticsearch/logs:/usr/share/elasticsearch/logs:rw
+
+    # Kibana
+    # @see https://hub.docker.com/_/kibana/
+    - name: kibana
+      enabled: yes
+      image: kibana
+      tag: 4.5.4
+      state: started
+      hostname: kibana
+      detach: True
+      restart_policy: always
+      net: docknet
+      env:
+        ELASTICSEARCH_URL: "http://elasticsearch:9200"
+        NODE_OPTIONS: --max-old-space-size=200
