@@ -260,8 +260,8 @@ docker:
         - 8086
         - 8089
       volumes:
-        - /datas03/docker/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf:ro
-        - /datas03/docker/influxdb/data:/var/lib/influxdb:rw
+        - /data/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+        - /data/influxdb/data:/var/lib/influxdb:rw
 
     # Grafana
     # @see https://hub.docker.com/r/grafana/grafana/
