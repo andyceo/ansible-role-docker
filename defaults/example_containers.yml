@@ -289,7 +289,7 @@ docker:
     # You should copy config files before create container!
     # You should place virtual host configs in nginx/conf.d directory
     - name: nginx
-      enabled: yes
+      enabled: no
       image: nginx
       tag: 1.10.1
       state: started
@@ -315,7 +315,7 @@ docker:
     # Drupal
     # @see https://hub.docker.com/_/drupal/
     - name: drupal8
-      enabled: yes
+      enabled: no
       image: drupal
       tag: 8.1.7
       state: started
@@ -330,7 +330,7 @@ docker:
     # @see https://hub.docker.com/r/ypereirareis/docker-satis/
     # Generate new hash with: php -r "echo hash('sha1', 'your_password');" and place it to config.php
     - name: satis
-      enabled: yes
+      enabled: no
       image: ypereirareis/docker-satis
       tag: 4.2
       state: started
@@ -354,7 +354,7 @@ docker:
     # Elasticsearch
     # @see https://hub.docker.com/_/elasticsearch/
     - name: elasticsearch
-      enabled: yes
+      enabled: no
       image: elasticsearch
       tag: 2.3.5
       state: started
@@ -370,7 +370,7 @@ docker:
     # Kibana
     # @see https://hub.docker.com/_/kibana/
     - name: kibana
-      enabled: yes
+      enabled: no
       image: kibana
       tag: 4.5.4
       state: started
@@ -386,7 +386,7 @@ docker:
     # @see https://hub.docker.com/_/logstash/
     # The file logstash.conf must exists before running this
     - name: logstash
-      enabled: yes
+      enabled: no
       image: logstash
       command: logstash -f /logstash-config/logstash.conf
       tag: 2.3.4
@@ -397,3 +397,30 @@ docker:
       net: docknet
       volumes:
         - /data/logstash/conf:/logstash-config
+
+    # Telegraf
+    # @see https://hub.docker.com/r/_/telegraf/
+    # @see https://github.com/cgeoffroy/basic-telegraf-setup
+    # @see https://github.com/stilllman/dockerfiles
+    - name: telegraf
+      enabled: no
+      image: telegraf
+      tag: "1.0.1-alpine"
+      state: started
+      hostname: telegraf
+      detach: True
+      restart_policy: always
+      net: docknet
+      volumes:
+        - /data/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+        - /var/run:/var/run:ro # Docker socket is available there, or mount it directly
+        - /proc:/hostfs/proc:ro
+        - /sys:/hostfs/sys:ro
+        - /etc:/hostfs/etc:ro
+        - /data:/data:ro
+      environment:
+        - HOST_PROC=/hostfs/proc
+        - HOST_SYS=/hostfs/sys
+        - HOST_ETC=/hostfs/etc
+        - HOST_MOUNT_PREFIX=/hostfs
+      privileged: True
