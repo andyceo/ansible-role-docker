@@ -63,7 +63,6 @@
   register: docker_network_create_result
   changed_when: "docker_network_create_result|succeeded and 'already exists' not in docker_network_create_result.stderr"
   tags:
-    - docker
     - docker-networks
 
 - meta: flush_handlers
@@ -122,7 +121,6 @@
   with_items: "{{ docker.containers }}"
   when: "{{ item.enabled }}"
   tags:
-    - docker
     - docker-orchestrate
 
 # This is the example task with all params that we can use in Ansible 1.5.4 (Ubuntu 14.04)
