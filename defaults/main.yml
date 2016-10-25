@@ -7,7 +7,7 @@ docker:
     apt_key_sig: 58118E89F3A912897C070ADBF76221572C52609D
     apt_repository: deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
     docker_compose_path: /usr/local/bin
-    docker_compose_version: 1.8.0-rc1
+    docker_compose_version: 1.8.1
     networks:
       - name: docknet
 
