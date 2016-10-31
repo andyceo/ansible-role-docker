@@ -4,21 +4,30 @@
   command: apt-get -y install python-apt aptitude
   register: docker_apt_dependencies_installed
   changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
+  tags:
+      - docker-repository
 
 - name: Add docker repository key
   apt_key:
     id: "{{ docker.data.apt_key_sig }}"
     keyserver: "{{ docker.data.apt_keyserver }}"
     state: present
+  tags:
+    - docker-repository
 
 - name: Install python-pycurl to make apt_repository module workable
   apt: pkg=python-pycurl
+  tags:
+    - docker-repository
 
 - name: Add docker repository
   apt_repository:
+    filename="{{ docker.data.apt_repository_filename }}"
     repo="{{ docker.data.apt_repository }}"
     state=present
     update_cache=yes
+  tags:
+    - docker-repository
 
 - name: Purge old lxc-docker if it exists
   apt:
