@@ -128,7 +128,7 @@
     privileged: "{{ item.privileged|default(False) }}"
     log_driver: "{{ item.log_driver|default('json-file') }}"
   with_items: "{{ docker.containers }}"
-  when: "{{ item.enabled }}"
+  when: item.enabled
   tags:
     - docker-orchestrate
 
