@@ -92,7 +92,7 @@
   shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.data.docker_compose_version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose
   args:
     chdir: "{{ docker.data.docker_compose_path }}"
-  when: "{{ docker_compose_version.stdout is not defined or docker_compose_version.stdout | version_compare(docker.data.docker_compose_version, '!=') }}"
+  when: docker_compose_version.stdout is not defined or docker_compose_version.stdout | version_compare(docker.data.docker_compose_version, '!=')
   tags:
     - docker-compose
 
