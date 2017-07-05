@@ -8,7 +8,7 @@ docker:
     apt_repository: deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
     apt_repository_filename: docker # .list extension will be added automatically. @see https://docs.docker.com/engine/installation/linux/ubuntulinux/
     docker_compose_path: /usr/local/bin
-    docker_compose_version: 1.8.1
+    docker_compose_version: 1.14.0
     networks:
       - name: docknet
 
