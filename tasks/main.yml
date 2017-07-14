@@ -29,11 +29,15 @@
   tags:
     - docker-repository
 
-- name: Purge old lxc-docker if it exists
+- name: Remove outdated docker packages if they exists (data remain)
   apt:
-    pkg=lxc-docker
-    state=absent
-    purge=yes
+    pkg: "{{ item }}"
+    state: absent
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items: "{{ docker.package.outdated }}"
+  tags:
+    - docker-package
 
 - name: Get current core version (uname -r)
   command: uname -r

@@ -12,6 +12,14 @@ docker:
     networks:
       - name: docknet
 
+  package:
+    current: docker-ce
+    outdated:
+      - lxc-docker
+      - docker
+      - docker-engine
+      - docker.io
+
   config:
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.
     # Set only settings that you really need! Commented keys below given for quick reference.
