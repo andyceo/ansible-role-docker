@@ -23,12 +23,13 @@
   tags:
     - docker-repository
 
-- name: Add docker repository
+- name: Remove outdated docker repositories and add current one
   apt_repository:
-    filename="{{ docker.data.apt_repository_filename }}"
-    repo="{{ docker.data.apt_repository }}"
-    state=present
-    update_cache=yes
+    filename: "{{ item.filename|default('docker') }}"
+    repo: "{{ item.repository }}"
+    state: "{{ item.state }}"
+    update_cache: yes
+  with_items: "{{ docker.repositories|sort(attribute='state') }}"
   tags:
     - docker-repository
 
