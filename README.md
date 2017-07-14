@@ -4,7 +4,7 @@ Install docker and provide usefull settings for it.
 
 ## Requirements
 
-Ubuntu 14.04
+Ubuntu 16.04
 
 ## Tags
 

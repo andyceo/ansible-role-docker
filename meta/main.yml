@@ -6,11 +6,10 @@ galaxy_info:
   author: andyceo
   description: Install docker and provide usefull settings for it
   license: "license (BSD, MIT)"
-  min_ansible_version: 1.5
+  min_ansible_version: 2.3
   platforms:
     - name: Ubuntu
       versions:
-        - trusty
         - xenial
   categories:
     - system
