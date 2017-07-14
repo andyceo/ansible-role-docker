@@ -2,15 +2,27 @@
 
 docker:
 
-  data:
-    apt_keyserver: hkp://p80.pool.sks-keyservers.net:80
-    apt_key_sig: 58118E89F3A912897C070ADBF76221572C52609D
-    apt_repository: deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
-    apt_repository_filename: docker # .list extension will be added automatically. @see https://docs.docker.com/engine/installation/linux/ubuntulinux/
-    docker_compose_path: /usr/local/bin
-    docker_compose_version: 1.14.0
-    networks:
-      - name: docknet
+  repositories:
+
+    # Section for docker-ce package, added after docker 17.06 released.
+    # @see https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+    # .list extension will be added automatically for the filename parameter.
+    - key:
+        id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+        url: https://download.docker.com/linux/ubuntu/gpg
+      repository: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+      filename: docker
+      state: present
+
+    # This repository is outdated since docker 17.06 is released
+    # @see https://docs.docker.com/engine/installation/linux/ubuntulinux/
+    # (documentation redirected to new one)
+    - key:
+        id: 58118E89F3A912897C070ADBF76221572C52609D
+        keyserver: hkp://p80.pool.sks-keyservers.net:80
+      repository: deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
+      filename: docker
+      state: absent
 
   package:
     current: docker-ce
@@ -19,6 +31,12 @@ docker:
       - docker
       - docker-engine
       - docker.io
+
+  data:
+    docker_compose_path: /usr/local/bin
+    docker_compose_version: 1.14.0
+    networks:
+      - name: docknet
 
   config:
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.

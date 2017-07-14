@@ -5,14 +5,17 @@
   register: docker_apt_dependencies_installed
   changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
   tags:
-      - docker-repository
+    - docker-repository-key
+    - docker-repository
 
-- name: Add docker repository key
+- name: Add docker main repository key and remove outdated repositories keys
   apt_key:
-    id: "{{ docker.data.apt_key_sig }}"
-    keyserver: "{{ docker.data.apt_keyserver }}"
-    state: present
+    id: "{{ item.key.id }}"
+    url: "{{ item.key.url|default(none) }}"
+    state: "{{ item.state }}"
+  with_items: "{{ docker.repositories }}"
   tags:
+    - docker-repository-key
     - docker-repository
 
 - name: Install python-pycurl to make apt_repository module workable
