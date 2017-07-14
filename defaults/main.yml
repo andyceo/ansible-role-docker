@@ -24,13 +24,17 @@ docker:
       filename: docker
       state: absent
 
-  package:
-    current: docker-ce
-    outdated:
-      - lxc-docker
-      - docker
-      - docker-engine
-      - docker.io
+  packages:
+    - package: docker-ce
+      state: latest
+    - package: lxc-docker
+      state: absent
+    - package: docker
+      state: absent
+    - package: docker-engine
+      state: absent
+    - package: docker.io
+      state: absent
 
   data:
     docker_compose_path: /usr/local/bin

@@ -33,19 +33,16 @@
   tags:
     - docker-repository
 
-- name: Remove outdated docker packages if they exists (data remain)
+- name: Remove outdated docker packages if they exists (data remain) and install current docker package
   apt:
-    pkg: "{{ item }}"
-    state: absent
+    pkg: "{{ item.package }}"
+    state: "{{ item.state }}"
     update_cache: yes
     cache_valid_time: 3600
-  with_items: "{{ docker.package.outdated }}"
+  with_items: "{{ docker.packages|sort(attribute='state') }}"
+  notify: docker-start
   tags:
     - docker-package
-
-- name: Finally install docker and start it daemon
-  apt: pkg=docker-engine
-  notify: docker-start
 
 - meta: flush_handlers
 
