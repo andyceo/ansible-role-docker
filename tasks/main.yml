@@ -2,6 +2,8 @@
 
 - name: Install dependencies for Ansible apt* modules
   command: apt-get -y install python-apt aptitude
+  args:
+    warn: no
   register: docker_apt_dependencies_installed
   changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
   tags:
