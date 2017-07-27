@@ -65,8 +65,8 @@
   notify: docker-restart
 
 - name: Create Docker user-defined networks
-  shell: docker network create {{ item.name }}
-  with_items: "{{ docker.data.networks }}"
+  shell: docker network create {{ item.name }} --driver {{ item.driver|default("bridge") }}
+  with_items: "{{ docker.networks }}"
   ignore_errors: True
   register: docker_network_create_result
   changed_when: "docker_network_create_result|succeeded and 'already exists' not in docker_network_create_result.stderr"
