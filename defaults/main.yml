@@ -42,9 +42,9 @@ docker:
     - name: docknet-overlay
       driver: overlay
 
-  data:
-    docker_compose_path: /usr/local/bin
-    docker_compose_version: 1.14.0
+  compose:
+    path: /usr/local/bin
+    version: 1.15.0
 
   config:
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.
