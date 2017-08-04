@@ -41,6 +41,7 @@ docker:
       driver: bridge
     - name: docknet-overlay
       driver: overlay
+      attachable: True
 
   compose:
     path: /usr/local/bin

@@ -76,7 +76,7 @@
   notify: docker-restart
 
 - name: Create Docker user-defined networks
-  shell: docker network create {{ item.name }} --driver {{ item.driver|default("bridge") }}
+  shell: docker network create {{ item.name }} --driver {{ item.driver|default("bridge") }} {{ "--attachable" if item.attachable|default(False) else "" }}
   with_items: "{{ docker.networks }}"
   ignore_errors: True
   register: docker_network_create_result
