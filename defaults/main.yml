@@ -42,6 +42,7 @@ docker:
     - name: docknet-overlay
       driver: overlay
       attachable: True
+      encrypted: True
 
   compose:
     path: /usr/local/bin
