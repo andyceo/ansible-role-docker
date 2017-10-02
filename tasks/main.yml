@@ -1,7 +1,7 @@
 ---
 
 - name: Install dependencies for Ansible apt* modules
-  command: apt-get -y install python-apt aptitude
+  command: apt-get -y install python3-apt aptitude
   args:
     warn: no
   register: docker_apt_dependencies_installed
@@ -31,8 +31,8 @@
     - docker-repository-key
     - docker-repository
 
-- name: Install python-pycurl to make apt_repository module workable
-  apt: pkg=python-pycurl
+- name: Install python3-pycurl to make apt_repository module workable
+  apt: pkg=python3-pycurl
   tags:
     - docker-repository
 
@@ -110,7 +110,7 @@
     - docker-compose
 
 - name: Install pip package to operate with python modules
-  apt: name=python-pip state=present
+  apt: name=python3-pip state=present
 
 - name: Install actual python pip packages to make ansible module docker workable and remove outdated ones
   pip: name={{ item.package }} state={{ item.state }}
