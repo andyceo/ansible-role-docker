@@ -36,6 +36,12 @@ docker:
     - package: docker.io
       state: absent
 
+  pips:
+    - package: docker
+      state: latest
+    - package: docker-py
+      state: absent
+
   networks:
     - name: docknet
       driver: bridge

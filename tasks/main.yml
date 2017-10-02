@@ -112,8 +112,9 @@
 - name: Install pip package to operate with python modules
   apt: name=python-pip state=present
 
-- name: Install docker-py to make ansible module docker workable
-  pip: name=docker-py
+- name: Install actual python pip packages to make ansible module docker workable and remove outdated ones
+  pip: name={{ item.package }} state={{ item.state }}
+  with_items: "{{ docker.pips|sort(attribute='state') }}"
 
 - name: Pre-create directories for data volumes
   command: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
