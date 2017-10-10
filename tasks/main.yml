@@ -64,6 +64,8 @@
     path=/etc/docker/daemon.json
     state=absent
   when: not docker.config.json
+  tags:
+    - docker-config
 
 - name: Generate default Docker OS-independent json configuration file
   template:
@@ -74,6 +76,8 @@
     group=root
   when: docker.config.json
   notify: docker-restart
+  tags:
+    - docker-config
 
 - name: Create Docker user-defined networks
   shell: docker network create {{ item.name }} --driver {{ item.driver|default("bridge") }} {{ "--attachable" if item.attachable|default(False) else "" }} {{ "--opt encrypted" if item.encrypted|default(False) and item.driver == 'overlay' else "" }}
