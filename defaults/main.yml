@@ -52,7 +52,7 @@ docker:
 
   compose:
     path: /usr/local/bin
-    version: 1.15.0
+    version: 1.18.0
 
   config:
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.
