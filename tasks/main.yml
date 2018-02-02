@@ -90,6 +90,17 @@
 
 - meta: flush_handlers
 
+- name: Install pip package to operate with python modules (needed for python docker library installation that will be used for docker-compose)
+  apt: name=python3-pip state=present
+  tags:
+    - docker-compose
+
+- name: Install actual python pip packages to make docker-compose workable and remove outdated pip packages
+  pip: name={{ item.package }} state={{ item.state }}
+  with_items: "{{ docker.pips|sort(attribute='state') }}"
+  tags:
+    - docker-compose
+
 - name: Get current docker-compose version
   shell: docker-compose --version | sed -n 's|.* \([0-9.a-z\-]*\), .*|\1|p'
   args:
@@ -104,7 +115,7 @@
   tags:
     - docker-compose
 
-- name: Install/update/actualize docker-compose utility with checksum verify
+- name: Install/update/actualize docker-compose utility with checksum verification
   shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.compose.version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sha256sum -c <(echo '{{ docker.compose.sha256 }}  docker-compose') || rm -f docker-compose
   args:
     chdir: "{{ docker.compose.path }}"
@@ -113,13 +124,6 @@
   when: docker_compose_version.stdout is not defined or docker_compose_version.stdout | version_compare(docker.compose.version, '!=')
   tags:
     - docker-compose
-
-- name: Install pip package to operate with python modules
-  apt: name=python3-pip state=present
-
-- name: Install actual python pip packages to make ansible module docker workable and remove outdated ones
-  pip: name={{ item.package }} state={{ item.state }}
-  with_items: "{{ docker.pips|sort(attribute='state') }}"
 
 - name: Pre-create directories for data volumes
   command: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
