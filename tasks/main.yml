@@ -149,19 +149,3 @@
   when: item.enabled
   tags:
     - docker-orchestrate
-
-# This is the example task with all params that we can use in Ansible 1.5.4 (Ubuntu 14.04)
-#- name: Example task that do something with containers
-#  docker:
-#    image=
-#    state=started
-#    command=
-#    detach=yes
-#    domainname
-#    publish_all_ports
-#    expose=
-#    hostname=
-#    links=redis:myredis
-#    name=
-#    volumes=
-#    volumes_from=
