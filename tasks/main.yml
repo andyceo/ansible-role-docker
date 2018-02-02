@@ -104,11 +104,12 @@
   tags:
     - docker-compose
 
-- name: Install/update/actualize docker-compose utility
-  shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.compose.version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose
+- name: Install/update/actualize docker-compose utility with checksum verify
+  shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.compose.version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sha256sum -c <(echo '{{ docker.compose.sha256 }}  docker-compose') || rm -f docker-compose
   args:
     chdir: "{{ docker.compose.path }}"
     warn: no
+    executable: /bin/bash
   when: docker_compose_version.stdout is not defined or docker_compose_version.stdout | version_compare(docker.compose.version, '!=')
   tags:
     - docker-compose
