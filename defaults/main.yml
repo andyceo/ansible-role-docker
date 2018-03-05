@@ -56,6 +56,12 @@ docker:
     sha256: 78734996d716113f9f9716d0b5064166e9475835e5000fd01b0480d19e1f7372
 
   config:
+    # You can pin your Docker engine to specific version (creating special file /etc/apt/preferences.d/docker-ce) when
+    # this configuration parameter contain version as string, for example latest known stable version is:
+    #     17.12.1~ce-0~ubuntu
+    # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
+    pin_docker_engine_to_version: no
+
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.
     # Set only settings that you really need! Commented keys below given for quick reference.
     # @see https://docs.docker.com/engine/reference/commandline/dockerd/#/daemon-configuration-file

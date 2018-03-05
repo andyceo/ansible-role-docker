@@ -6,6 +6,14 @@ Install docker and provide usefull settings for it.
 
 Ubuntu 16.04
 
+## Features
+
+- pin to specific version
+
+    You can pin your Docker engine to specific version (creating special file `/etc/apt/preferences.d/docker-ce`) when this configuration parameter contain version as string, for example latest known stable version is `17.12.1~ce-0~ubuntu`. By default this feature is disabled, as this Ansible role trying to install Docker engine close to it's official guide
+
+- ...to be continued
+
 ## Tags
 
 - **docker-orchestrate**: Only orchestrate docker containers given by `docker.containers`.
