@@ -132,7 +132,7 @@
     chdir: "{{ docker.compose.path }}"
     warn: no
     executable: /bin/bash
-  when: docker_compose_version.stdout is not defined or docker_compose_version.stdout | version_compare(docker.compose.version, '!=')
+  when: docker_compose_version.stdout is not defined or docker_compose_version.stdout is version(docker.compose.version, '!=')
   tags:
     - docker-compose
 
