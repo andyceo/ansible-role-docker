@@ -53,7 +53,7 @@ docker:
   compose:
     path: /usr/local/bin
     version: 1.21.2
-    sha256: 78734996d716113f9f9716d0b5064166e9475835e5000fd01b0480d19e1f7372
+    sha256: 8a11713e11ed73abcb3feb88cd8b5674b3320ba33b22b2ba37915b4ecffdf042
 
   config:
     # When this configuration parameter contain version as string, for example the latest known stable version string:
