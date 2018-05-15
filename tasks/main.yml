@@ -125,6 +125,16 @@
   tags:
     - docker-compose
 
+- name: Manage secrets (Docker Swarm mode)
+  docker_secret:
+    name: "{{ item.name }}"
+    data: "{{ item.data|default('') }}"
+    labels: "{{ item.labels|default({}) }}"
+    state: "{{ item.state|default('present') }}"
+  with_items: "{{ docker.secrets|sort(attribute='state') }}"
+  tags:
+    - docker-secrets
+
 - name: Pre-create directories for data volumes
   command: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
     creates={{ item.1.split(':')[0] }}
