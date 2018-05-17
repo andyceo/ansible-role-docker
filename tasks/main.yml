@@ -6,6 +6,10 @@
     warn: no
   register: docker_apt_dependencies_installed
   changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
+  environment:
+    LANG: en_US.UTF-8
+    LC_MESSAGES: en_US.UTF-8
+    LC_ALL: en_US.UTF-8
   tags:
     - docker-repository-key
     - docker-repository
