@@ -1,7 +1,7 @@
 ---
 
 - name: Install dependencies for Ansible apt* modules
-  command: apt-get -y install python3-apt aptitude
+  command: apt-get -y install python3-apt
   args:
     warn: no
   register: docker_apt_dependencies_installed
