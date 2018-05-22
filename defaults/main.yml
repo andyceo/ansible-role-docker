@@ -60,6 +60,9 @@ docker:
     #    some: label
     #- name: some-secret-to-remove
     #  state: absent
+    #
+    # Note that this is your responsibility to be sure that Docker Swarm mode is enabled on node and secrets are defined
+    # for only one node in Swarm cluster to avoid secrets creation on every cluster's node what is extremely redundant
 
   compose:
     path: /usr/local/bin
