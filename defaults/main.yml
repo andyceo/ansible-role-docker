@@ -111,27 +111,42 @@ docker:
 #      disable-legacy-registry: False
 
 
-  containers:
-    - name: alpine
-      enabled: no
-      image: alpine
-      tag: 3.3
-      # You cannot run any container based on alpine image, if you try:
-      #     sudo docker create --name alpine alpine:3.3
-      # you get:
-      #     Error response from daemon: No command specified
-      # Because it have no ENTRYPOINT no CMD.
-      # So thats why we use "state: absent" here.
-      state: absent
-      hostname: ""
-      links: []
-      ports: []
-
-    - name: busybox
-      enabled: no
-      image: busybox
-      tag: 1.24.1
-      state: started
-      hostname: ""
-      links: []
-      ports: []
+  containers: []
+    # Examples:
+    #
+    #
+    # To recreate redis container:
+    #
+    # - name: myredis
+    #   image: redis
+    #   command: redis-server --appendonly yes
+    #   state: present
+    #   recreate: yes
+    #   exposed_ports:
+    #     - 6379
+    #   volumes_from:
+    #     - mydata
+    #
+    #
+    # Some Alpine-based container:
+    #
+    # Note that you cannot run any container based on alpine image, if you try:
+    #     sudo docker create --name alpine alpine:3.3
+    # you get:
+    #     Error response from daemon: No command specified
+    # Because it have no ENTRYPOINT no CMD.
+    # So thats why we use "state: absent" here.
+    #
+    # - name: alpine
+    #   image: alpine
+    #   state: absent
+    #   ports: []
+    #
+    #
+    # Busybox-based container
+    #
+    # - name: busybox
+    #   image: busybox
+    #   state: started
+    #   detach: False
+    #   ports: []

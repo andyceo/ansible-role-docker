@@ -146,25 +146,25 @@
      - "{{ docker.containers | selectattr('volumes', 'defined') | list }}"
      - volumes
 
-- name: Orchestrate containers
-  docker:
+- name: Orchestrate Docker containers
+  docker_container:
     name: "{{ item.name }}"
-    image: "{{ item.image }}:{{ item.tag|default('latest') }}"
+    image: "{{ item.image }}"
     command: "{{ item.command|default('') }}"
-    state: "{{ item.state }}"
+    state: "{{ item.state|default('started') }}"
     hostname: "{{ item.hostname|default('') }}"
-    detach: "{{ item.detach|default(False) }}"
-    restart_policy: "{{ item.restart_policy|default('no') }}"
-    net: "{{ item.net|default('') }}"
-    expose: "{{ item.expose|default([]) }}"
-    ports: "{{ item.ports|default([]) }}"
+    detach: "{{ item.detach|default(True) }}"
+    restart_policy: "{{ item.restart_policy|default('on-failure') }}"
+    network_mode: "{{ item.network_mode|default('bridge') }}"
+    networks: "{{ item.networks|default([]) }}"
+    exposed_ports: "{{ item.exposed_ports|default(item.exposed|default([])) }}"
+    published_ports: "{{ item.published_ports|default(item.ports|default([])) }}"
     volumes: "{{ item.volumes|default([]) }}"
-    links: "{{ item.links|default([]) }}"
     env: "{{ item.env|default({}) }}"
-    memory_limit: "{{ item.memory_limit|default(0) }}"
+    memory: "{{ item.memory|default(0) }}"
     privileged: "{{ item.privileged|default(False) }}"
     log_driver: "{{ item.log_driver|default('json-file') }}"
   with_items: "{{ docker.containers }}"
-  when: item.enabled
   tags:
+    - docker-containers
     - docker-orchestrate
