@@ -135,7 +135,7 @@
     data: "{{ item.data|default('') }}"
     labels: "{{ item.labels|default({}) }}"
     state: "{{ item.state|default('present') }}"
-  with_items: "{{ docker.secrets|sort(attribute='state') }}"
+  with_items: "{{ docker.secrets }}"
   tags:
     - docker-secrets
 
