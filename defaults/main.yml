@@ -150,3 +150,12 @@ docker:
     #   state: started
     #   detach: False
     #   ports: []
+
+  users: []
+    # List of Linux usernames to be added to docker group
+    # Example:
+    #   - myuser
+    #   - anotheruser
+    #
+    # Note that current version of user is lack of removing user from group functionality, so this can not be done here.
+    # @see https://github.com/ansible/ansible/issues/11024

@@ -83,6 +83,15 @@
   tags:
     - docker-config
 
+- name: Add/remove users to docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  with_items: "{{ docker.users }}"
+  tags:
+    - docker-users
+
 - name: Create Docker user-defined networks
   shell: docker network create {{ item.name }} --driver {{ item.driver|default("bridge") }} {{ "--attachable" if item.attachable|default(False) else "" }} {{ "--opt encrypted" if item.encrypted|default(False) and item.driver == 'overlay' else "" }}
   with_items: "{{ docker.networks }}"
