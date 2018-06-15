@@ -159,3 +159,12 @@ docker:
     #
     # Note that current version of user is lack of removing user from group functionality, so this can not be done here.
     # @see https://github.com/ansible/ansible/issues/11024
+    #
+    # Also note that user must logout/login after adding to group or use `newgrp docker` command to groups permissons be
+    # reloaded.
+    #
+    # Warning: The docker group (or the group specified with -G) is root-equivalent;
+    # see [Docker Daemon Attack Surface details]
+    # (https://docs.docker.com/engine/security/security/#/docker-daemon-attack-surface)
+    # and this blogpost on [Why we don't let non-root users run Docker in CentOS, Fedora, or RHEL]
+    # (https://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/)
