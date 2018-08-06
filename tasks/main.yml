@@ -145,6 +145,7 @@
     labels: "{{ item.labels|default({}) }}"
     state: "{{ item.state|default('present') }}"
   with_items: "{{ docker.secrets }}"
+  no_log: true
   tags:
     - docker-secrets
 
