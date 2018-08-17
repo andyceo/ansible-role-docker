@@ -146,7 +146,7 @@
     state: "{{ item.state|default('present') }}"
   with_items: "{{ docker.swarm.secrets }}"
   no_log: true
-  when: ansible_hostname == docker.swarm.manager and
+  when: docker.swarm.manager is defined and docker.swarm.manager == ansible_hostname and
         (docker.swarm.manager_group is defined or docker.swarm.manager_group in group_names)
   tags:
     - docker-swarm
