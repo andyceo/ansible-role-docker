@@ -50,19 +50,26 @@ docker:
       attachable: True
       encrypted: True
 
-  secrets: []
-    # Use format:
+  swarm:
+    # This is Docker Swarm settings, so it would be executed only on `manager` host
+
+    # Ansible hostname for the Docker Swarm manager node that would execute all Swarm commands
+    manager:
+
+    # Name of the Docker Swarm managers Ansible host group in your inventory
+    manager_group:
+
+    # Docker Swarm secrets. Use format:
     #
-    #- name: some-secret
-    #  data: some-data
-    #  state: present
-    #  labels:
-    #    some: label
-    #- name: some-secret-to-remove
-    #  state: absent
+    #  - name: some-secret
+    #    data: some-data
+    #    state: present
+    #    labels:
+    #      some: label
     #
-    # Note that this is your responsibility to be sure that Docker Swarm mode is enabled on node and secrets are defined
-    # for only one node in Swarm cluster to avoid secrets creation on every cluster's node what is extremely redundant
+    #  - name: some-secret-to-remove
+    #    state: absent
+    secrets: []
 
   compose:
     path: /usr/local/bin

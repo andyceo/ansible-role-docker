@@ -144,9 +144,12 @@
     data: "{{ item.data|default('') }}"
     labels: "{{ item.labels|default({}) }}"
     state: "{{ item.state|default('present') }}"
-  with_items: "{{ docker.secrets }}"
+  with_items: "{{ docker.swarm.secrets }}"
   no_log: true
+  when: ansible_hostname == docker.swarm.manager and
+        (docker.swarm.manager_group is defined or docker.swarm.manager_group in group_names)
   tags:
+    - docker-swarm
     - docker-secrets
 
 - name: Pre-create directories for data volumes

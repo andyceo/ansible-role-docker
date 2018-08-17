@@ -22,5 +22,6 @@ Ubuntu 16.04
 - **docker-repository**: Only add actual docker repository key and repository itself to `/etc/apt/sources.list.d/docker.list` (if no defaults were redefined, see options `docker.repositories`), install all needed python modules for ansible apt* modules. Also remove outdated repositories and keys.
 - **docker-repository-key**: Only add actual docker repository key and remove outdated keys.
 - **docker-config**: Create crossplatform docker configuration file (default Linux location is `/etc/docker/daemon.json`)
-- **docker-secrets**: Manage secrets. Docker Swarm should be active on the target host.
 - **docker-users**: Add given users to `docker` group to make them use docker without `sudo`.
+- **docker-swarm**: Execute all Docker Swarm tasks on given `docker.swarm.manager` host. Docker Swarm should be active on the target host.
+- **docker-secrets**: Manage secrets. Docker Swarm should be active on the target host.
