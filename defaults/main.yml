@@ -61,15 +61,15 @@ docker:
 
     # Docker Swarm secrets. Use format:
     #
-    #  - name: some-secret
+    #  some-secret:
     #    data: some-data
     #    state: present
     #    labels:
     #      some: label
     #
-    #  - name: some-secret-to-remove
+    #  some-secret-to-remove:
     #    state: absent
-    secrets: []
+    secrets: {}
 
   compose:
     path: /usr/local/bin

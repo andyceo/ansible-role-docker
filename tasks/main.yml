@@ -140,11 +140,11 @@
 
 - name: Manage secrets (Docker Swarm mode)
   docker_secret:
-    name: "{{ item.name }}"
-    data: "{{ item.data|default('') }}"
-    labels: "{{ item.labels|default({}) }}"
-    state: "{{ item.state|default('present') }}"
-  with_items: "{{ docker.swarm.secrets }}"
+    name: "{{ item.key }}"
+    data: "{{ item.value.data }}"
+    labels: "{{ item.value.labels|default({}) }}"
+    state: "{{ item.value.state|default('present') }}"
+  with_dict: "{{ docker.swarm.secrets }}"
   no_log: true
   when: docker.swarm.manager is defined and docker.swarm.manager == ansible_hostname and
         (docker.swarm.manager_group is defined or docker.swarm.manager_group in group_names)
