@@ -77,8 +77,9 @@ docker:
     sha256: 8a11713e11ed73abcb3feb88cd8b5674b3320ba33b22b2ba37915b4ecffdf042
 
   config:
-    # When this configuration parameter contain version as string, for example the latest known stable version string:
+    # When this configuration parameter contain version as string, for example the latest known stable version strings:
     #     18.03.1~ce-0~ubuntu
+    #     18.06.1~ce~3-0~ubuntu
     # it will pin your Docker engine to specified version (by creating special file /etc/apt/preferences.d/docker-ce)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
     pin_docker_engine_to_version: no
