@@ -152,6 +152,14 @@
     - docker-swarm
     - docker-secrets
 
+- name: Show secrets (Docker Swarm mode) (debug mode, use carefully!)
+  debug:
+    msg: "State {{ item.value.state|default('present') }} for {{ item.key }}: {{ item.value.data }} with labels: {{ item.value.labels|default({}) }}"
+  with_dict: "{{ docker.swarm.secrets }}"
+  tags:
+    - never
+    - docker-secrets-show
+
 - name: Pre-create directories for data volumes
   command: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
     creates={{ item.1.split(':')[0] }}

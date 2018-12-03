@@ -26,3 +26,4 @@ Ubuntu 16.04
 - **docker-users**: Add given users to `docker` group to make them use docker without `sudo`.
 - **docker-swarm**: Execute all Docker Swarm tasks on given `docker.swarm.manager` host. Docker Swarm should be active on the target host.
 - **docker-secrets**: Manage secrets. Docker Swarm should be active on the target host.
+- **docker-secrets-show**: Show secrets in clear text. USE WITH CAUTION! This task executed only when this tag specified explicitly.
