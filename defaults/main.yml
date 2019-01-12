@@ -88,6 +88,10 @@ docker:
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
     pin_docker_engine_to_version: no
 
+    # Same as `pin_docker_engine_to_version`, but for Docker CLI package (Docker and Docker CLI separated since
+    # version 18.09)
+    pin_docker_cli_to_version: no
+
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.
     # Set only settings that you really need! Commented keys below given for quick reference.
     # @see https://docs.docker.com/engine/reference/commandline/dockerd/#/daemon-configuration-file
