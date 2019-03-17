@@ -25,8 +25,17 @@ docker:
       state: absent
 
   packages:
+    # Main Docker package
     - package: docker-ce
       state: latest
+    # Added starting from Docker 18.09 (added for updates via apt)
+    - package: docker-ce-cli
+      state: latest
+    # Added starting from Docker 18.09 (added for updates via apt)
+    - package: containerd.io
+      state: latest
+
+    # Below are outdated packages
     - package: lxc-docker
       state: absent
     - package: docker
