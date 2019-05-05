@@ -14,6 +14,13 @@
     - docker-repository-key
     - docker-repository
 
+- name: Install apt-key dependency (gnupg)
+  apt:
+    package: gnupg
+  tags:
+    - docker-repository-key
+    - docker-repository
+
 - name: Add docker main repository key and remove outdated repositories keys
   apt_key:
     id: "{{ item.key.id }}"
