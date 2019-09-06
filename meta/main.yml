@@ -12,6 +12,6 @@ galaxy_info:
       versions:
         - xenial
         - bionic
-  categories:
+  galaxy_tags:
     - system
     - development
