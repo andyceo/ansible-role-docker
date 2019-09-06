@@ -4,7 +4,7 @@ Install docker and provide usefull settings for it.
 
 ## Requirements
 
-Supported operating systems: @see https://github.com/andyceo/ansible-role-docker/blob/master/meta/main.yml#L10
+Supported operating systems: see https://github.com/andyceo/ansible-role-docker/blob/master/meta/main.yml#L10
 
 ## Features
 
