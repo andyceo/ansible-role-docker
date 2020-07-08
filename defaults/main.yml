@@ -85,12 +85,12 @@ docker:
 
   compose:
     path: /usr/local/bin
-    version: 1.25.5
-    sha256: 1cb7ecccc17c8d5f1888f9e2b3211b07e35c86d0010a6c0f711fe65ef5b69528
+    version: 1.26.2
+    sha256: 13e50875393decdb047993c3c0192b0a3825613e6dfc0fa271efed4f5dbdd6eb
 
   config:
     # When this configuration parameter contain version as string, for example the latest known stable version strings:
-    #     5:19.03.11~3-0~ubuntu-{{ ansible_distribution_release }}
+    #     5:19.03.12~3-0~ubuntu-{{ ansible_distribution_release }}
     # it will pin your Docker engine to specified version (by creating special file /etc/apt/preferences.d/docker-ce)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
     pin_docker_engine_to_version: no
