@@ -65,7 +65,19 @@
       Package: docker-ce-cli
       Pin: version {{ docker.config.pin_docker_cli_to_version }}
       Pin-Priority: 1002
-  when: docker.config.pin_docker_engine_to_version
+  when: docker.config.pin_docker_cli_to_version
+  tags:
+    - docker-package
+    - docker-packages
+
+- name: Pin containerd.io release
+  copy:
+    dest: /etc/apt/preferences.d/containerd_io
+    content: |
+      Package: containerd.io
+      Pin: version {{ docker.config.pin_containerd_io_to_version }}
+      Pin-Priority: 1002
+  when: docker.config.pin_containerd_io_to_version
   tags:
     - docker-package
     - docker-packages
