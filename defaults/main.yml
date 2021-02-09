@@ -34,6 +34,9 @@ docker:
     # Added starting from Docker 18.09 (added for updates via apt)
     - package: containerd.io
       state: latest
+    # Added from the beginning of 2021 (added for updates via apt)
+    - package: docker-ce-rootless-extras
+      state: latest
 
     # Below are outdated packages
     - package: lxc-docker
@@ -89,8 +92,10 @@ docker:
     sha256: 04216d65ce0cd3c27223eab035abfeb20a8bef20259398e3b9d9aa8de633286d
 
   config:
+    # @TODO: optimize packages apt pinning
+
     # When this configuration parameter contain version as string, for example the latest known stable version string:
-    #     5:20.10.2~3-0~ubuntu-{{ ansible_distribution_release }}
+    #     5:20.10.3~3-0~ubuntu-{{ ansible_distribution_release }}
     # it will pin your Docker engine to specified version (by creating special file /etc/apt/preferences.d/docker-ce)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
     pin_docker_engine_to_version: no
@@ -98,6 +103,9 @@ docker:
     # Same as `pin_docker_engine_to_version`, but for Docker CLI package (Docker and Docker CLI separated since
     # version 18.09)
     pin_docker_cli_to_version: no
+
+    # Same as `pin_docker_engine_to_version`, but for `docker-ce-rootless-extras` package (Added from the begining 2021)
+    pin_docker_ce_rootless_extras_to_version: no
 
     # When this configuration parameter contain version as string, for example the latest known stable version string:
     #     1.4.3-1
