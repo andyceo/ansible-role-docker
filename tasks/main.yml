@@ -174,7 +174,7 @@
     - docker-compose
 
 - name: Install/update/actualize docker-compose utility with checksum verification
-  shell: curl -L https://github.com/docker/compose/releases/download/v{{ docker.compose.version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sha256sum -c <(echo '{{ docker.compose.sha256 }}  docker-compose') || rm -f docker-compose
+  shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.compose.version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sha256sum -c <(echo '{{ docker.compose.sha256 }}  docker-compose') || rm -f docker-compose
   args:
     chdir: "{{ docker.compose.path }}"
     warn: no
