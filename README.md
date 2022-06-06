@@ -21,14 +21,15 @@ Supported operating systems: see https://github.com/andyceo/ansible-role-docker/
 
 ## Tags
 
-- **docker-package**, **docker-packages** (alias): Main tag. Allow only pin package version, install and upgrade docker. Use it when you just want to install/upgrade Docker on target host(s)
+- **docker-package**, **docker-packages** (alias): Main tag. Allow only pin package version, install and upgrade docker. Use it when you just want to install/upgrade Docker on target host(s). Use with `docker-repository` tag for fresh Docker installation: `--tags="docker-repository,docker-package"`
+- **docker-repository**: Only add actual docker repository key and repository itself to `/etc/apt/sources.list.d/docker.list` (if no defaults were redefined, see [`docker.repositories`](defaults/main.yml) options), install all needed python modules for ansible apt* modules. Also remove outdated repositories and keys.
 - **docker-repository-key**: Only add actual docker repository key and remove outdated keys
 - **docker-compose**: Only install/update/actualize docker-compose utility with given version `docker.compose.version`. This task executed only when this tag specified explicitly. **Outdated due to `docker-compose-plugin` and will be removed when docker-compose utility closes**
 - **docker-secrets**: Manage (add/remove) Docker Swarm secrets. Docker Swarm should be active on the target host
 - **docker-secrets-show**: Show secrets in clear text. **USE WITH CAUTION!** This task executed only when this tag specified explicitly
+
 - **docker-containers** (or **docker-orchestrate**): Only orchestrate docker containers given by `docker.containers`. Outdated
 - **docker-networks**: Only create user-defined docker networks of type bridge, given by `docker.networks`.
-- **docker-repository**: Only add actual docker repository key and repository itself to `/etc/apt/sources.list.d/docker.list` (if no defaults were redefined, see options `docker.repositories`), install all needed python modules for ansible apt* modules. Also remove outdated repositories and keys.
 - **docker-config**: Create crossplatform docker configuration file (default Linux location is `/etc/docker/daemon.json`)
 - **docker-users**: Add given users to `docker` group to make them use docker without `sudo`.
 - **docker-swarm**: Execute all Docker Swarm tasks on given `docker.swarm.manager` host. Docker Swarm should be active on the target host.
