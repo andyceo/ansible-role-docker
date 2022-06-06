@@ -37,6 +37,9 @@ docker:
     # Added from the beginning of 2021 (added for updates via apt)
     - package: docker-ce-rootless-extras
       state: latest
+    # Added from the beginning of 2022 (added for updates via apt)
+    - package: docker-compose-plugin
+      state: latest
 
     # Below are outdated packages
     - package: lxc-docker
