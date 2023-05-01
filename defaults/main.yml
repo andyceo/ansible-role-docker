@@ -98,7 +98,7 @@ docker:
     # @TODO: optimize packages apt pinning
 
     # When this configuration parameter contain version as string, for example the latest known stable version string:
-    # 5:23.0.4-1~{{ ansible_distribution|lower }}.{{ ansible_distribution_version }}~{{ ansible_distribution_release }}
+    # 5:23.0.5-1~{{ ansible_distribution|lower }}.{{ ansible_distribution_version }}~{{ ansible_distribution_release }}
     # it will pin your Docker engine to specified version (by creating special file /etc/apt/preferences.d/docker-ce)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
     pin_docker_engine_to_version: no
