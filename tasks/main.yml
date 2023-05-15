@@ -21,6 +21,15 @@
     - docker-repository-key
     - docker-repository
 
+- name: Install dependencies for Docker support in Python (docker_secret Ansible module)
+  apt:
+    package: python3-docker
+  tags:
+    - docker-repository-key
+    - docker-repository
+    - docker-secrets
+    - docker-secrets-show
+
 - name: Add docker main repository key and remove outdated repositories keys
   apt_key:
     id: "{{ item.key.id }}"
