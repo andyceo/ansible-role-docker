@@ -196,8 +196,9 @@
   docker_secret:
     name: "{{ item.key }}"
     data: "{{ item.value.data }}"
-    labels: "{{ item.value.labels|default({}) }}"
-    state: "{{ item.value.state|default('present') }}"
+    data_is_b64: "{{ item.value.data_is_b64 | default(false) }}"
+    labels: "{{ item.value.labels | default({}) }}"
+    state: "{{ item.value.state | default('present') }}"
   with_dict: "{{ docker.swarm.secrets }}"
   no_log: true
   when: docker.swarm.manager is defined and docker.swarm.manager == ansible_hostname and
