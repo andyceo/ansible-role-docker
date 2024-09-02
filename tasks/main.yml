@@ -1,9 +1,7 @@
 ---
 
 - name: Install dependencies for Ansible apt* modules
-  command: apt-get -y install python3-apt
-  args:
-    warn: no
+  ansible.builtin.command: apt-get -y install python3-apt
   register: docker_apt_dependencies_installed
   changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
   environment:
@@ -15,14 +13,14 @@
     - docker-repository
 
 - name: Install apt-key dependency (gnupg)
-  apt:
+  ansible.builtin.apt:
     package: gnupg
   tags:
     - docker-repository-key
     - docker-repository
 
 - name: Install dependencies for Docker support in Python (docker_secret Ansible module)
-  apt:
+  ansible.builtin.apt:
     package: python3-docker
   tags:
     - docker-repository-key
@@ -31,9 +29,9 @@
     - docker-secrets-show
 
 - name: Add docker main repository key and remove outdated repositories keys
-  apt_key:
+  ansible.builtin.apt_key:
     id: "{{ item.key.id }}"
-    url: "{{ item.key.url|default(none) }}"
+    url: "{{ item.key.url | default(none) }}"
     state: "{{ item.state }}"
   with_items: "{{ docker.repositories }}"
   tags:
@@ -41,154 +39,175 @@
     - docker-repository
 
 - name: Install python3-pycurl to make apt_repository module workable
-  apt: pkg=python3-pycurl
+  ansible.builtin.apt:
+    pkg: python3-pycurl
   tags:
     - docker-repository
 
 - name: Remove outdated docker repositories and add current one
-  apt_repository:
-    filename: "{{ item.filename|default('docker') }}"
+  ansible.builtin.apt_repository:
+    filename: "{{ item.filename | default('docker') }}"
     repo: "{{ item.repository }}"
     state: "{{ item.state }}"
-    update_cache: yes
-  with_items: "{{ docker.repositories|sort(attribute='state') }}"
+    update_cache: true
+  with_items: "{{ docker.repositories | sort(attribute='state') }}"
   tags:
     - docker-repository
 
 - name: Pin Docker engine release
-  copy:
+  ansible.builtin.copy:
     dest: /etc/apt/preferences.d/docker-ce
     content: |
       Package: docker-ce
       Pin: version {{ docker.config.pin_docker_engine_to_version }}
       Pin-Priority: 1002
+    mode: "644"
   when: docker.config.pin_docker_engine_to_version
   tags:
     - docker-package
     - docker-packages
 
 - name: Pin Docker CLI release
-  copy:
+  ansible.builtin.copy:
     dest: /etc/apt/preferences.d/docker-ce-cli
     content: |
       Package: docker-ce-cli
       Pin: version {{ docker.config.pin_docker_cli_to_version }}
       Pin-Priority: 1002
+    mode: "644"
   when: docker.config.pin_docker_cli_to_version
   tags:
     - docker-package
     - docker-packages
 
 - name: Pin Docker docker-ce-rootless-extras package
-  copy:
+  ansible.builtin.copy:
     dest: /etc/apt/preferences.d/docker-ce-rootless-extras
     content: |
       Package: docker-ce-rootless-extras
       Pin: version {{ docker.config.pin_docker_ce_rootless_extras_to_version }}
       Pin-Priority: 1002
+    mode: "644"
   when: docker.config.pin_docker_ce_rootless_extras_to_version
   tags:
     - docker-package
     - docker-packages
 
 - name: Pin containerd.io release
-  copy:
+  ansible.builtin.copy:
     dest: /etc/apt/preferences.d/containerd_io
     content: |
       Package: containerd.io
       Pin: version {{ docker.config.pin_containerd_io_to_version }}
       Pin-Priority: 1002
+    mode: "644"
   when: docker.config.pin_containerd_io_to_version
   tags:
     - docker-package
     - docker-packages
 
 - name: Remove outdated docker packages if they exists (data remain) and install current docker package
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ item.package }}"
     state: "{{ item.state }}"
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
-  with_items: "{{ docker.packages|sort(attribute='state') }}"
+  with_items: "{{ docker.packages | sort(attribute='state') }}"
   notify: docker-start
   tags:
     - docker-package
     - docker-packages
 
-- meta: flush_handlers
+- name: Execute all triggered handlers by now
+  ansible.builtin.meta: flush_handlers
 
 - name: Remove default Docker OS-independent json configuration file if nothing to add to it
-  file:
-    path=/etc/docker/daemon.json
-    state=absent
+  ansible.builtin.file:
+    path: /etc/docker/daemon.json
+    state: absent
   when: not docker.config.json
   tags:
     - docker-config
 
 - name: Generate default Docker OS-independent json configuration file
-  template:
-    src=daemon.json.j2
-    dest=/etc/docker/daemon.json
-    mode=0600
-    owner=root
-    group=root
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: "600"
+    owner: root
+    group: root
   when: docker.config.json
   notify: docker-restart
   tags:
     - docker-config
 
 - name: Add/remove users to docker group
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     groups: docker
-    append: yes
+    append: true
   with_items: "{{ docker.users }}"
   tags:
     - docker-users
 
 - name: Create Docker user-defined networks
-  shell: docker network create {{ item.name }} --driver {{ item.driver|default("bridge") }} {{ "--attachable" if item.attachable|default(False) else "" }} {{ "--opt encrypted" if item.encrypted|default(False) and item.driver == 'overlay' else "" }}
+  ansible.builtin.shell: >
+    docker network create {{ item.name }} --driver {{ item.driver | default("bridge") }} {{
+    "--attachable" if item.attachable | default(False) else "" }} {{
+    "--opt encrypted" if item.encrypted | default(False) and item.driver == 'overlay' else "" }}
   with_items: "{{ docker.networks }}"
-  ignore_errors: True
+  ignore_errors: true
   register: docker_network_create_result
   changed_when: "docker_network_create_result|succeeded and 'already exists' not in docker_network_create_result.stderr"
   tags:
     - docker-networks
 
-- meta: flush_handlers
+- name: Execute all triggered handlers by now
+  ansible.builtin.meta: flush_handlers
 
 - name: Install pip package to operate with python modules (needed for python docker library installation that will be used for docker-compose)
-  apt: name=python3-pip state=present
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
   tags:
     - docker-compose
 
 - name: Install actual python pip packages to make docker-compose workable and remove outdated pip packages
-  pip: name={{ item.package }} state={{ item.state }}
-  with_items: "{{ docker.pips|sort(attribute='state') }}"
+  ansible.builtin.pip:
+    name: "{{ item.package }}"
+    state: "{{ item.state }}"
+  with_items: "{{ docker.pips | sort(attribute='state') }}"
   tags:
     - docker-compose
 
 - name: Get current docker-compose version
-  shell: docker-compose --version | sed -n 's|.* \([0-9.a-z\-]*\)|\1|p'
-  args:
+  ansible.builtin.shell:
+    cmd: set -o pipefail && docker-compose --version | sed -n 's|.* \([0-9.a-z\-]*\)|\1|p'
     chdir: "{{ docker.compose.path }}"
     removes: "docker-compose"
+    executable: /bin/sh
   register: docker_compose_version
   changed_when: false
   tags:
     - docker-compose
 
-- debug: msg="Found docker-compose version {{ docker_compose_version.stdout }}"
+- name: Print docker-compose version
+  ansible.builtin.debug:
+    msg: "Found docker-compose version {{ docker_compose_version.stdout }}"
   tags:
     - docker-compose
 
 - name: Install/update/actualize docker-compose utility with checksum verification
-  shell: curl -L https://github.com/docker/compose/releases/download/{{ docker.compose.version }}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sha256sum -c <(echo '{{ docker.compose.sha256 }}  docker-compose') || rm -f docker-compose
+  ansible.builtin.shell: >
+    curl -L https://github.com/docker/compose/releases/download/{{
+    docker.compose.version }}/docker-compose-`uname -s`-`uname -m` >
+    docker-compose && chmod +x docker-compose && sha256sum -c <(echo '{{ docker.compose.sha256 }}
+    docker-compose') || rm -f docker-compose
   args:
     chdir: "{{ docker.compose.path }}"
-    warn: no
     executable: /bin/bash
-  when: docker_compose_version.stdout is not defined or docker_compose_version.stdout is version(docker.compose.version, '!=')
+  when: "docker_compose_version.stdout is not defined or docker_compose_version.stdout is
+    version(docker.compose.version, '!=')"
   tags:
     - docker-compose
 
@@ -208,38 +227,39 @@
     - docker-secrets
 
 - name: Show secrets (Docker Swarm mode) (debug mode, use carefully!)
-  debug:
-    msg: "State {{ item.value.state|default('present') }} for {{ item.key }}: '{{ item.value.data }}' with labels: {{ item.value.labels|default({}) }}"
+  ansible.builtin.debug:
+    msg: "State {{ item.value.state | default('present') }} for {{ item.key }}: '{{ item.value.data }}' with labels: {{ item.value.labels | default({}) }}"
   with_dict: "{{ docker.swarm.secrets }}"
   tags:
     - never
     - docker-secrets-show
 
 - name: Pre-create directories for data volumes
-  command: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
-    creates={{ item.1.split(':')[0] }}
+  ansible.builtin.command:
+    cmd: mkdir -p -m 0755 {{ item.1.split(':')[0] }}
+    creates: "{{ item.1.split(':')[0] }}"
   with_subelements:
-     - "{{ docker.containers | selectattr('volumes', 'defined') | list }}"
-     - volumes
+    - "{{ docker.containers | selectattr('volumes', 'defined') | list }}"
+    - volumes
 
 - name: Orchestrate Docker containers
   docker_container:
     name: "{{ item.name }}"
     image: "{{ item.image }}"
-    command: "{{ item.command|default('') }}"
-    state: "{{ item.state|default('started') }}"
-    hostname: "{{ item.hostname|default('') }}"
-    detach: "{{ item.detach|default(True) }}"
-    restart_policy: "{{ item.restart_policy|default('on-failure') }}"
-    network_mode: "{{ item.network_mode|default('bridge') }}"
-    networks: "{{ item.networks|default([]) }}"
-    exposed_ports: "{{ item.exposed_ports|default(item.exposed|default([])) }}"
-    published_ports: "{{ item.published_ports|default(item.ports|default([])) }}"
-    volumes: "{{ item.volumes|default([]) }}"
-    env: "{{ item.env|default({}) }}"
-    memory: "{{ item.memory|default(0) }}"
-    privileged: "{{ item.privileged|default(False) }}"
-    log_driver: "{{ item.log_driver|default('json-file') }}"
+    command: "{{ item.command | default('') }}"
+    state: "{{ item.state | default('started') }}"
+    hostname: "{{ item.hostname | default('') }}"
+    detach: "{{ item.detach | default(True) }}"
+    restart_policy: "{{ item.restart_policy | default('on-failure') }}"
+    network_mode: "{{ item.network_mode | default('bridge') }}"
+    networks: "{{ item.networks | default([]) }}"
+    exposed_ports: "{{ item.exposed_ports | default(item.exposed | default([])) }}"
+    published_ports: "{{ item.published_ports | default(item.ports | default([])) }}"
+    volumes: "{{ item.volumes | default([]) }}"
+    env: "{{ item.env | default({}) }}"
+    memory: "{{ item.memory | default(0) }}"
+    privileged: "{{ item.privileged | default(False) }}"
+    log_driver: "{{ item.log_driver | default('json-file') }}"
   with_items: "{{ docker.containers }}"
   tags:
     - docker-containers

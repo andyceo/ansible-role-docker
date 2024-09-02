@@ -10,28 +10,28 @@ docker:
     # UI for Docker (formely known as DockerUI)
     # @see https://hub.docker.com/r/uifd/ui-for-docker/
     - name: uifd
-      enabled: no
+      enabled: false
       image: uifd/ui-for-docker
       tag: 0.11.0-beta
       state: started
       hostname: uifd
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
         - "9000:9000"
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-      privileged: True
+      privileged: true
 
     # phpMemcacheAdmin
     # @see https://hub.docker.com/r/jacksoncage/phpmemcachedadmin/
     - name: phpmemcachedadmin
-      enabled: no
+      enabled: false
       image: jacksoncage/phpmemcachedadmin
       state: started
       hostname: phpmemcachedadmin
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -43,12 +43,12 @@ docker:
     # Gitlab Community Edition
     # @see https://hub.docker.com/r/gitlab/gitlab-ce/
     - name: gitlab
-      enabled: no
+      enabled: false
       image: gitlab/gitlab-ce
       tag: 8.10.4-ce.0
       state: started
       hostname: gitlab.example.com
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       log_driver: none
@@ -66,12 +66,12 @@ docker:
     # You can create as many runners as you want, adjust suffix respectively.
     # Do not forget to register runner in Gitlab after startup!
     - name: gitlab-runner-01
-      enabled: no
+      enabled: false
       image: gitlab/gitlab-runner
       tag: ubuntu-v1.1.3
       state: started
       hostname: gitlab-runner-01
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -82,11 +82,11 @@ docker:
     # Memcached
     # @see https://hub.docker.com/_/memcached/
     - name: memcached
-      enabled: no
+      enabled: false
       image: memcached
       tag: 1.4.28
       state: started
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -95,13 +95,13 @@ docker:
     # Redis
     # @see https://hub.docker.com/r/_/redis/
     - name: redis
-      enabled: yes
+      enabled: true
       image: redis
       tag: 3.2.1
       state: started
       command: redis-server /usr/local/etc/redis/redis.conf
       hostname: redis-master
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -114,32 +114,32 @@ docker:
     # Private Docker Registry
     # @see https://hub.docker.com/_/registry/
     # @see https://docs.docker.com/registry/
-    # Variable REGISTRY_STORAGE_DELETE_ENABLED: True used to allow deleting repos and tags. You should periodically run
+    # Variable REGISTRY_STORAGE_DELETE_ENABLED: true used to allow deleting repos and tags. You should periodically run
     # 'sudo docker exec registry /bin/registry garbage-collect /etc/docker/registry/config.yml' on host machine
     # to delete obsolete data layers in registry.
     - name: registry
-      enabled: yes
+      enabled: true
       image: registry
       tag: 2.5.0
       state: started
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
         - "5000:5000"
       env:
-        REGISTRY_STORAGE_DELETE_ENABLED: True
+        REGISTRY_STORAGE_DELETE_ENABLED: true
       volumes:
         - /data/registry:/var/lib/registry:rw
 
     # Docker Registry Frontend
     # @see https://hub.docker.com/r/konradkleine/docker-registry-frontend/
     - name: docker-registry-frontend
-      enabled: no
+      enabled: false
       image: konradkleine/docker-registry-frontend
       tag: v2
       state: started
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -149,11 +149,11 @@ docker:
         ENV_DOCKER_REGISTRY_PORT: 5000
 
     - name: docker-registry-web
-      enabled: yes
+      enabled: true
       image: hyper/docker-registry-web
       tag: v0.1.2
       state: started
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       expose:
@@ -163,17 +163,17 @@ docker:
       env:
         REGISTRY_URL: http://registry.example.com:5000/v2
         REGISTRY_NAME: registry.example.com:5000
-        REGISTRY_READONLY: False
+        REGISTRY_READONLY: false
 
     # Jenkins
     # @see https://hub.docker.com/r/jenkinsci/jenkins/
     # There is "official" jenkins 1.x at: https://hub.docker.com/_/jenkins/
     - name: jenkins
-      enabled: no
+      enabled: false
       image: jenkinsci/jenkins
       tag: 2.18
       state: started
-      detach: yes
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -182,17 +182,21 @@ docker:
       volumes:
         - /data/jenkins:/var/jenkins_home
       env:
-        JAVA_OPTS: -Dhudson.footerURL=http://jenkins.example.com -Djava.awt.headless=true -Dhudson.security.csrf.requestfield=crumb -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/Moscow
+        JAVA_OPTS: >
+          -Dhudson.footerURL=http://jenkins.example.com
+          -Djava.awt.headless=true
+          -Dhudson.security.csrf.requestfield=crumb
+          -Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/Moscow
 
     # MySQL
     # @see https://hub.docker.com/_/mysql/
     # Note that environment variable MYSQL_ROOT_PASSWORD is mandatory.
     - name: mysql
-      enabled: no
+      enabled: false
       image: mysql
       tag: 5.7.14
       state: started
-      detach: yes
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -207,11 +211,11 @@ docker:
     # phpMyAdmin
     # @see https://hub.docker.com/r/phpmyadmin/phpmyadmin/
     - name: phpmyadmin
-      enabled: no
+      enabled: false
       image: phpmyadmin/phpmyadmin
       tag: 4.6.3-1
       state: started
-      detach: yes
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -224,11 +228,11 @@ docker:
     # Redmine
     # @see https://hub.docker.com/_/redmine/
     - name: redmine
-      enabled: no
+      enabled: false
       image: redmine
       tag: 3.2.1
       state: started
-      detach: yes
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -247,12 +251,12 @@ docker:
     # InfluxDB
     # @see https://hub.docker.com/r/tutum/influxdb/
     - name: influxdb
-      enabled: no
+      enabled: false
       image: influxdb
       tag: 1.0.0-beta3
       state: started
       hostname: influxdb
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       expose:
@@ -267,11 +271,11 @@ docker:
     # @see https://hub.docker.com/r/grafana/grafana/
     # Note that file /data/grafana/conf should exist on host before start this task! Or grafana did not start.
     - name: grafana
-      enabled: no
+      enabled: false
       image: grafana/grafana
       tag: 3.1.1
       state: started
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -289,12 +293,12 @@ docker:
     # You should copy config files before create container!
     # You should place virtual host configs in nginx/conf.d directory
     - name: nginx
-      enabled: no
+      enabled: false
       image: nginx
       tag: 1.10.1
       state: started
       hostname: nginx
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       ports:
@@ -315,12 +319,12 @@ docker:
     # Drupal
     # @see https://hub.docker.com/_/drupal/
     - name: drupal8
-      enabled: no
+      enabled: false
       image: drupal
       tag: 8.1.7
       state: started
       hostname: drupal8
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -330,12 +334,12 @@ docker:
     # @see https://hub.docker.com/r/ypereirareis/docker-satis/
     # Generate new hash with: php -r "echo hash('sha1', 'your_password');" and place it to config.php
     - name: satis
-      enabled: no
+      enabled: false
       image: ypereirareis/docker-satis
       tag: 4.2
       state: started
       hostname: satis
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -354,12 +358,12 @@ docker:
     # Elasticsearch
     # @see https://hub.docker.com/_/elasticsearch/
     - name: elasticsearch
-      enabled: no
+      enabled: false
       image: elasticsearch
       tag: 2.3.5
       state: started
       hostname: elasticsearch
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -370,12 +374,12 @@ docker:
     # Kibana
     # @see https://hub.docker.com/_/kibana/
     - name: kibana
-      enabled: no
+      enabled: false
       image: kibana
       tag: 4.5.4
       state: started
       hostname: kibana
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       env:
@@ -386,13 +390,13 @@ docker:
     # @see https://hub.docker.com/_/logstash/
     # The file logstash.conf must exists before running this
     - name: logstash
-      enabled: no
+      enabled: false
       image: logstash
       command: logstash -f /logstash-config/logstash.conf
       tag: 2.3.4
       state: started
       hostname: logstash
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -403,12 +407,12 @@ docker:
     # @see https://github.com/cgeoffroy/basic-telegraf-setup
     # @see https://github.com/stilllman/dockerfiles
     - name: telegraf
-      enabled: no
+      enabled: false
       image: telegraf
       tag: "1.0.1-alpine"
       state: started
       hostname: telegraf
-      detach: True
+      detach: true
       restart_policy: always
       net: docknet
       volumes:
@@ -423,4 +427,4 @@ docker:
         - HOST_SYS=/hostfs/sys
         - HOST_ETC=/hostfs/etc
         - HOST_MOUNT_PREFIX=/hostfs
-      privileged: True
+      privileged: true

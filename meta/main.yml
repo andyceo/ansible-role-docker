@@ -1,12 +1,12 @@
 ---
 
-allow_duplicates: no
+allow_duplicates: false
 
 galaxy_info:
   author: andyceo
   description: Install docker and provide usefull settings for it
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.5
+  min_ansible_version: "2.5"
   platforms:
     - name: Ubuntu
       versions:

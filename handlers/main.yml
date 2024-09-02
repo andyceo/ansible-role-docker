@@ -1,21 +1,25 @@
 ---
 
-- name: docker-start
-  service:
-    name=docker
-    state=started
+- name: Start docker service
+  listen: "docker-start"
+  ansible.builtin.service:
+    name: docker
+    state: started
 
-- name: docker-stop
-  service:
-    name=docker
-    state=stopped
+- name: Stop docker service
+  listen: "docker-stop"
+  ansible.builtin.service:
+    name: docker
+    state: stopped
 
-- name: docker-reload
-  service:
-    name=docker
-    state=reloaded
+- name: Reload docker service
+  listen: "docker-reload"
+  ansible.builtin.service:
+    name: docker
+    state: reloaded
 
-- name: docker-restart
-  service:
-    name=docker
-    state=restarted
+- name: Restart docker service
+  listen: "docker-restart"
+  ansible.builtin.service:
+    name: docker
+    state: restarted

@@ -5,7 +5,7 @@
 vhosts:
 
   dockerui:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -24,7 +24,7 @@ vhosts:
             proxy_set_header Connection "";
 
   phpmemcachedadmin:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -41,7 +41,7 @@ vhosts:
             proxy_pass http://127.0.0.1:30080;
 
   gitlab:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -66,7 +66,7 @@ vhosts:
             proxy_pass http://127.0.0.1:31080;
 
   'docker-registry-frontend':
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -83,7 +83,7 @@ vhosts:
             proxy_pass http://127.0.0.1:32080;
 
   jenkins:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -106,7 +106,7 @@ vhosts:
             proxy_pass http://127.0.0.1:33080;
 
   phpmyadmin:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -121,7 +121,7 @@ vhosts:
             proxy_pass http://127.0.0.1:34080;
 
   redmine:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -136,7 +136,7 @@ vhosts:
             proxy_pass http://127.0.0.1:35000;
 
   influxdb:
-    enabled: no
+    enabled: false
     listen:
       - '*:80'
     root: /var/www
@@ -151,7 +151,7 @@ vhosts:
             proxy_pass http://127.0.0.1:8083;
 
   grafana:
-    enabled: yes
+    enabled: true
     listen:
       - '*:80'
     root: /var/www

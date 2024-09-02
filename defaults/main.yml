@@ -62,8 +62,8 @@ docker:
       driver: bridge
     - name: docknet-overlay
       driver: overlay
-      attachable: True
-      encrypted: True
+      attachable: true
+      encrypted: true
 
   swarm:
     # This is Docker Swarm settings, so it would be executed only on `manager` host
@@ -101,21 +101,21 @@ docker:
     # 5:24.0.2-1~{{ ansible_distribution|lower }}.{{ ansible_distribution_version }}~{{ ansible_distribution_release }}
     # it will pin your Docker engine to specified version (by creating special file /etc/apt/preferences.d/docker-ce)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
-    pin_docker_engine_to_version: no
+    pin_docker_engine_to_version: false
 
     # Same as `pin_docker_engine_to_version`, but for Docker CLI package (Docker and Docker CLI separated since
     # version 18.09)
-    pin_docker_cli_to_version: no
+    pin_docker_cli_to_version: false
 
     # Same as `pin_docker_engine_to_version`, but for `docker-ce-rootless-extras` package (Added from the begining 2021)
-    pin_docker_ce_rootless_extras_to_version: no
+    pin_docker_ce_rootless_extras_to_version: false
 
     # When this configuration parameter contain version as string, for example the latest known stable version string:
     #     1.6.21-1
     # it will pin your containerd.io package to specified version
     # (by creating special file /etc/apt/preferences.d/containerd.io)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
-    pin_containerd_io_to_version: no
+    pin_containerd_io_to_version: false
 
     # Use this settings to create /etc/docker/daemon.json crossplatform docker daemon config file.
     # Set only settings that you really need! Commented keys below given for quick reference.
@@ -135,10 +135,10 @@ docker:
 #      graph: ""
 #      cluster-store: ""
 #      cluster-advertise: ""
-#      debug: True
+#      debug: true
 #      hosts: []
 #      log-level: ""
-#      tlsverify: True
+#      tlsverify: true
 #      tlscacert: ""
 #      tlscert: ""
 #      tlskey: ""
@@ -146,10 +146,10 @@ docker:
 #      default-ulimits: {}
 #      bridge: ""
 #      fixed-cidr: ""
-#      raw-logs: False
+#      raw-logs: false
 #      registry-mirrors: []
 #      insecure-registries: []
-#      disable-legacy-registry: False
+#      disable-legacy-registry: false
 
 
   containers: []
@@ -189,7 +189,7 @@ docker:
     # - name: busybox
     #   image: busybox
     #   state: started
-    #   detach: False
+    #   detach: false
     #   ports: []
 
   users: []
