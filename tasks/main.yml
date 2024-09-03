@@ -32,6 +32,7 @@
   ansible.builtin.apt_key:
     id: "{{ item.key.id }}"
     url: "{{ item.key.url | default(none) }}"
+    keyring: "{{ item.key.keyring | default(omit) }}"
     state: "{{ item.state }}"
   with_items: "{{ docker.repositories }}"
   tags:

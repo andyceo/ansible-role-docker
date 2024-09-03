@@ -5,12 +5,16 @@ docker:
   repositories:
 
     # Section for docker-ce package, added after docker 17.06 released.
-    # @see https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+    # @see https://docs.docker.com/engine/install/ubuntu/ for Ubuntu
+    # @see https://docs.docker.com/engine/install/debian/ for Debian
     # .list extension will be added automatically for the filename parameter.
     - key:
         id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-        url: https://download.docker.com/linux/ubuntu/gpg
-      repository: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+        keyring: /etc/apt/trusted.gpg.d/docker.gpg
+      repository: >
+        deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.gpg]
+        https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
       filename: docker
       state: present
 
@@ -98,7 +102,7 @@ docker:
     # @TODO: optimize packages apt pinning
 
     # When this configuration parameter contain version as string, for example the latest known stable version string:
-    # 5:24.0.2-1~{{ ansible_distribution|lower }}.{{ ansible_distribution_version }}~{{ ansible_distribution_release }}
+    # 5:27.2.0-1~{{ ansible_distribution|lower }}.{{ ansible_distribution_version }}~{{ ansible_distribution_release }}
     # it will pin your Docker engine to specified version (by creating special file /etc/apt/preferences.d/docker-ce)
     # By default this is disabled, as this Ansible role trying to install Docker engine close to it's official guide.
     pin_docker_engine_to_version: false
