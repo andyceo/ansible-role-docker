@@ -62,8 +62,8 @@
       Package: docker-ce
       Pin: version {{ docker.config.pin_docker_engine_to_version }}
       Pin-Priority: 1002
-    mode: "644"
-  when: docker.config.pin_docker_engine_to_version
+    mode: "u=rw,g=r,o=r"  # 644
+  when: docker.config.pin_docker_engine_to_version is defined and docker.config.pin_docker_engine_to_version != ""
   tags:
     - docker-package
     - docker-packages
@@ -75,8 +75,8 @@
       Package: docker-ce-cli
       Pin: version {{ docker.config.pin_docker_cli_to_version }}
       Pin-Priority: 1002
-    mode: "644"
-  when: docker.config.pin_docker_cli_to_version
+    mode: "u=rw,g=r,o=r"  # 644
+  when: docker.config.pin_docker_cli_to_version is defined and docker.config.pin_docker_cli_to_version != ""
   tags:
     - docker-package
     - docker-packages
@@ -88,8 +88,9 @@
       Package: docker-ce-rootless-extras
       Pin: version {{ docker.config.pin_docker_ce_rootless_extras_to_version }}
       Pin-Priority: 1002
-    mode: "644"
-  when: docker.config.pin_docker_ce_rootless_extras_to_version
+    mode: "u=rw,g=r,o=r"  # 644
+  when: docker.config.pin_docker_ce_rootless_extras_to_version is defined and
+    docker.config.pin_docker_ce_rootless_extras_to_version != ""
   tags:
     - docker-package
     - docker-packages
@@ -101,8 +102,8 @@
       Package: containerd.io
       Pin: version {{ docker.config.pin_containerd_io_to_version }}
       Pin-Priority: 1002
-    mode: "644"
-  when: docker.config.pin_containerd_io_to_version
+    mode: "u=rw,g=r,o=r"  # 644
+  when: docker.config.pin_containerd_io_to_version is defined and docker.config.pin_containerd_io_to_version != ""
   tags:
     - docker-package
     - docker-packages
