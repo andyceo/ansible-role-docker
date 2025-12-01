@@ -1,7 +1,7 @@
 ---
 
 - name: Install dependencies for Ansible apt* modules
-  ansible.builtin.command: apt-get -y install python3-apt
+  ansible.builtin.command: apt-get -y install python3-apt python3-debian
   register: docker_apt_dependencies_installed
   changed_when: "'is already the newest version' not in docker_apt_dependencies_installed.stdout"
   environment:
@@ -12,46 +12,15 @@
     - docker-repository-key
     - docker-repository
 
-- name: Install apt-key dependency (gnupg)
-  ansible.builtin.apt:
-    package: gnupg
-  tags:
-    - docker-repository-key
-    - docker-repository
-
-- name: Install dependencies for Docker support in Python (docker_secret Ansible module)
-  ansible.builtin.apt:
-    package: python3-docker
-  tags:
-    - docker-repository-key
-    - docker-repository
-    - docker-secrets
-    - docker-secrets-show
-
-- name: Add docker main repository key and remove outdated repositories keys
-  ansible.builtin.apt_key:
-    id: "{{ item.key.id }}"
-    url: "{{ item.key.url | default(none) }}"
-    keyring: "{{ item.key.keyring | default(omit) }}"
-    state: "{{ item.state }}"
-  with_items: "{{ docker.repositories }}"
-  tags:
-    - docker-repository-key
-    - docker-repository
-
-- name: Install python3-pycurl to make apt_repository module workable
-  ansible.builtin.apt:
-    pkg: python3-pycurl
-  tags:
-    - docker-repository
-
-- name: Remove outdated docker repositories and add current one
-  ansible.builtin.apt_repository:
-    filename: "{{ item.filename | default('docker') }}"
-    repo: "{{ item.repository }}"
-    state: "{{ item.state }}"
-    update_cache: true
-  with_items: "{{ docker.repositories | sort(attribute='state') }}"
+- name: Install actual Docker repository (and repository key)
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
+    suites: "{{ ansible_distribution_release }}"
+    components: stable
+    architectures: amd64
+    signed_by: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
   tags:
     - docker-repository
 
